@@ -16,12 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--UserLoginActivity-->
+        <activity android:name=".UserLoginActivity">
+        </activity>
+
         <!--CreateMeetingActivity-->
         <activity android:name=".CreateMeetingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
+
+
+
+
 
     </application>
 

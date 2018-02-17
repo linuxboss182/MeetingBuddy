@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Rounded edit box inspired by
+https://stackoverflow.com/questions/3646415/how-to-create-edittext-with-rounded-corners-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false" android:state_focused="false">
         <shape>
             <gradient
                 android:centerY="0.2"
-                android:startColor="#D3D3D3"
+                android:startColor="#d3d3d3"
                 android:centerColor="#65FFFFFF"
                 android:endColor="#00FFFFFF"
                 android:angle="270"
                 />
             <stroke
-                android:width="0.7dp"
-                android:color="#BDBDBD" />
+                android:width="1dp"
+                android:color="#dad6d2" />
             <corners
                 android:radius="10dp" />
         </shape>

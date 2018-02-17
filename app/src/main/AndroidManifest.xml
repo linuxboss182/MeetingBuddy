@@ -10,15 +10,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity android:name=".MainActivity">
+
+        </activity>
+
+        <!-- UserLoginActivity -->
+        <activity android:name=".UserLoginActivity"></activity>
+
+        <!-- CreateAccountActivity -->
+        <activity android:name=".CreateAccountActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+
+            </intent-filter>
+        </activity>
+
+        <!-- MyMeetingActivity -->
+        <activity android:name=".MyMeetingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- UserLoginActivity -->
-        <activity android:name=".UserLoginActivity"></activity>
 
         <!-- CreateMeetingActivity -->
         <activity

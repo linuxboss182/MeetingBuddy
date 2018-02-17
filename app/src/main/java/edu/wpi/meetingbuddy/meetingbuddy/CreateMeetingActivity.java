@@ -94,15 +94,13 @@ public class CreateMeetingActivity extends Activity {
     private void updateDate() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
         dateET.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void updateTime() {
-        String myFormat = "HH:MM"; //In which you need put here
-        //TimeFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        //dateET.setText(sdf.format(myCalendar.getTime()));
+        String myFormat = "hh:mm a"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        timeET.setText(sdf.format(myCalendar.getTime()));
     }
 
 }

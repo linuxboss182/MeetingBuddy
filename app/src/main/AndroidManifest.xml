@@ -28,7 +28,12 @@
             </intent-filter>
         </activity>
 
-
+        <!--StudentMeetingActivity-->
+        <activity android:name=".StudentMeetingActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
 
 
 

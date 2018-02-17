@@ -17,17 +17,33 @@
             </intent-filter>
         </activity>
 
-        <!--UserLoginActivity-->
-        <activity android:name=".UserLoginActivity">
+        <!-- UserLoginActivity -->
+        <activity
+            android:name=".UserLoginActivity">
+
         </activity>
 
-        <!--CreateMeetingActivity-->
-        <activity android:name=".CreateMeetingActivity">
+        <!-- CreateMeetingActivity -->
+        <activity
+            android:name=".CreateMeetingActivity"
+            android:label="@string/title_activity_create_meeting"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.meetingbuddy.meetingbuddy.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".PeopleSearchActivity"
+            android:label="@string/title_activity_people_search"
+            android:parentActivityName=".CreateMeetingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.meetingbuddy.meetingbuddy.CreateMeetingActivity" />
+        </activity>
         <!--StudentMeetingActivity-->
         <activity android:name=".StudentMeetingActivity">
             <intent-filter>

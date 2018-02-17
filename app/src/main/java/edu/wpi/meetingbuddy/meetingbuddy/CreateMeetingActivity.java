@@ -3,8 +3,10 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,19 +24,20 @@ import java.util.Locale;
  * Created by s7sal on 2/15/2018.
  */
 
-public class CreateMeetingActivity extends Activity {
+public class CreateMeetingActivity extends AppCompatActivity {
 
     EditText dateET;
     EditText timeET;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     Calendar myCalendar;
-    Time myTime;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_meeting);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myCalendar = Calendar.getInstance();
         dateET = findViewById(R.id.dateET);
@@ -75,7 +79,6 @@ public class CreateMeetingActivity extends Activity {
         };
 
         timeET.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
@@ -85,9 +88,6 @@ public class CreateMeetingActivity extends Activity {
                 timePickerDialog.show();
             }
         });
-
-
-
     }
 
 

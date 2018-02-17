@@ -4,4 +4,6 @@
     <string name="password">Password</string>
     <string name="login">Log In</string>
     <string name="createaccount">Create New Account</string>
+    <string name="title_activity_people_search">PeopleSearchActivity</string>
+    <string name="title_activity_create_meeting">Create Meeting</string>
 </resources>

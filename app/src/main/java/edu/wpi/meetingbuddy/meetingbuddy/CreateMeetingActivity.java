@@ -28,6 +28,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
     EditText dateET;
     EditText timeET;
+    EditText peopleET;
+    EditText locationET;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     Calendar myCalendar;
@@ -42,9 +44,21 @@ public class CreateMeetingActivity extends AppCompatActivity {
         myCalendar = Calendar.getInstance();
         dateET = findViewById(R.id.dateET);
         timeET = findViewById(R.id.timeET);
+        peopleET = findViewById(R.id.peopleET);
+        locationET = findViewById(R.id.locationET);
 
 
         ////////// Listeners ///////////////////////////
+        peopleET.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+               Intent i = new Intent(getApplicationContext(), PeopleSearchActivity.class);
+               startActivity(i);
+            }
+        });
+
+
 
         date = new DatePickerDialog.OnDateSetListener() {
             @Override

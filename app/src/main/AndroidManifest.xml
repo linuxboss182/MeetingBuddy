@@ -18,10 +18,7 @@
         </activity>
 
         <!-- UserLoginActivity -->
-        <activity
-            android:name=".UserLoginActivity">
-
-        </activity>
+        <activity android:name=".UserLoginActivity"></activity>
 
         <!-- CreateMeetingActivity -->
         <activity
@@ -31,11 +28,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.meetingbuddy.meetingbuddy.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".PeopleSearchActivity"
             android:label="@string/title_activity_people_search"
@@ -45,15 +42,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.meetingbuddy.meetingbuddy.CreateMeetingActivity" />
         </activity>
-        <!--StudentMeetingActivity-->
+
+        <activity
+            android:name=".LocationSelectorActivity"
+            android:label="Select Meeting Location"
+            android:parentActivityName=".CreateMeetingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.wpi.meetingbuddy.meetingbuddy.CreateMeetingActivity" />
+        </activity>
+
+        <!-- StudentMeetingActivity -->
         <activity android:name=".StudentMeetingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
             </intent-filter>
         </activity>
-
-
-
     </application>
 
 </manifest>

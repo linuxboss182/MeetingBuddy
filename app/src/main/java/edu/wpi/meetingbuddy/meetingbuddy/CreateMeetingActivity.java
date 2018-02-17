@@ -58,6 +58,14 @@ public class CreateMeetingActivity extends AppCompatActivity {
             }
         });
 
+        locationET.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
+                startActivity(i);
+            }
+        });
 
 
         date = new DatePickerDialog.OnDateSetListener() {

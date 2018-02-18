@@ -3,6 +3,7 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,7 +14,7 @@ import android.widget.EditText;
  * Created by Anh on 2/17/2018.
  */
 
-public class CreateAccountActivity extends Activity {
+public class CreateAccountActivity extends AppCompatActivity {
 
     private EditText username;
     private EditText password;
@@ -97,8 +98,8 @@ public class CreateAccountActivity extends Activity {
             }
         });
 
-        //Create account
-        create = findViewById(R.id.log_in);
+       //Create account
+        create = findViewById(R.id.create_button);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

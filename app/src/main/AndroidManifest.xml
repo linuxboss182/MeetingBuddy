@@ -9,23 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
-        <activity android:name=".MainActivity">
-
-        </activity>
 
         <!-- UserLoginActivity -->
-        <activity android:name=".UserLoginActivity"></activity>
-
-        <!-- CreateAccountActivity -->
-        <activity android:name=".CreateAccountActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.DEFAULT" />
-
-            </intent-filter>
-        </activity>
-
-        <!-- MyMeetingActivity -->
-        <activity android:name=".MyMeetingActivity">
+        <activity android:name=".UserLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,14 +19,23 @@
             </intent-filter>
         </activity>
 
+        <!-- CreateAccountActivity -->
+        <activity android:name=".CreateAccountActivity">
+
+        </activity>
+
+        <!-- MyMeetingActivity -->
+        <activity android:name=".MyMeetingActivity">
+        </activity>
+
         <!-- CreateMeetingActivity -->
         <activity
             android:name=".CreateMeetingActivity"
             android:label="@string/title_activity_create_meeting"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MyMeetingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.wpi.meetingbuddy.meetingbuddy.MainActivity" />
+                android:value="edu.wpi.meetingbuddy.meetingbuddy.MyMeetingActivity" />
 
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />

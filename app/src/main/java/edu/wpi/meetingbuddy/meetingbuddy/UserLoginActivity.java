@@ -1,6 +1,7 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -70,6 +71,15 @@ public class UserLoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Log in
+            }
+        });
+
+        create_account = findViewById(R.id.create_account);
+        create_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(),CreateAccountActivity.class);
+                startActivity(i);
             }
         });
 

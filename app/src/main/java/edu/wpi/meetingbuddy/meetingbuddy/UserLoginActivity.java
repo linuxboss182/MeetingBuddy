@@ -71,6 +71,11 @@ public class UserLoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Log in
+                //...
+
+                //Go to My meetings
+                Intent i = new Intent(getApplicationContext(),MyMeetingActivity.class);
+                startActivity(i);
             }
         });
 

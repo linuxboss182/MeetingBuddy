@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,12 +22,24 @@ public class MyMeetingFragment extends Fragment{
 
     private RecyclerView mMeetingRecyclerView;
     private MeetingAdapter mAdapter;
+    private Button add;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_meetings, container, false);
 
+        //Add new meeting
+        add = (Button) view.findViewById(R.id.add_meeting);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(),CreateMeetingActivity.class);
+                startActivity(i);
+            }
+        });
+
+        //Scroll through the list of meetings
         mMeetingRecyclerView = (RecyclerView) view
                 .findViewById(R.id.meeting_recycler_view);
         mMeetingRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

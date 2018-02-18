@@ -14,7 +14,10 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 import android.widget.Toolbar;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,11 +65,11 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
-                startActivity(i);
+                //Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
+                //startActivity(i);
+                pickPointOnMap();
             }
         });
-
 
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -110,6 +113,23 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+    }
+
+    static final int PICK_MAP_POINT_REQUEST = 999;  // The request code
+    private void pickPointOnMap() {
+        Intent pickPointIntent = new Intent(this, LocationSelectorActivity.class);
+        startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PICK_MAP_POINT_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
+                locationET.setText(latLng.latitude + ", " + latLng.longitude);
+            }
+        }
     }
 
 

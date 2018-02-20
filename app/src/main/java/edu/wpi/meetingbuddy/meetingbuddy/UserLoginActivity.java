@@ -9,6 +9,13 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.IOException;
 
 
 /**
@@ -22,6 +29,11 @@ public class UserLoginActivity extends Activity {
     private EditText password;
     private Button login;
     private Button create_account;
+    private String user_name;
+    private String user_password;
+
+    private NetworkManager networkManager = new NetworkManager();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +49,7 @@ public class UserLoginActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String user_name = s.toString();
+                user_name = s.toString();
                 //Save the username for authentication
             }
 
@@ -56,7 +68,7 @@ public class UserLoginActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String user_password = s.toString();
+                user_password = s.toString();
                 //Save the password for authentication
             }
 
@@ -71,7 +83,28 @@ public class UserLoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Log in
-                //...
+
+
+                String json = "{name: " + user_name + ", password: " + user_password + "}";
+                networkManager.post(networkManager.url+"/Login", json, new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                    }
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        String responseStr = response.body().string();
+                        final String messageText = "Status code : " + response.code() +
+                                "n" +
+                                "Response body : " + responseStr;
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+
 
                 //Go to My meetings
                 Intent i = new Intent(getApplicationContext(),MyMeetingActivity.class);

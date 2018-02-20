@@ -1,5 +1,7 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,43 +11,96 @@ import java.util.UUID;
 
 public class Meeting {
 
-    private UUID mId;
-    private String mTitle;
-    private Date mDate;
-    private boolean mAttended;
-    //List of accounts - attendants
-    //Account - teacher
+    private int meetingID;
+    private int organizer;
+    private String time;
+    private String date;
+    private String place;
+    private float longitude;
+    private float latitude;
+    private int classSize;
+    private int attendanceID;
 
-    public Meeting() {
-        mId = UUID.randomUUID();
-        mDate = new Date();
+
+    public JSONObject toJSON(){
+        JSONObject obj = new JSONObject();
+        return obj;
     }
 
-    public UUID getId() {
-        return mId;
+    public void fromJSON(String json){
+        //Parse from string
+        JSONObject obj = new JSONObject();
     }
 
-    public String getTitle() {
-        return mTitle;
+    public int getMeetingID() {
+        return meetingID;
     }
 
-    public void setTitle(String title) {
-        mTitle = title;
+    public void setMeetingID(int meetingID) {
+        this.meetingID = meetingID;
     }
 
-    public Date getDate() {
-        return mDate;
+    public int getOrganizer() {
+        return organizer;
     }
 
-    public void setDate(Date date) {
-        mDate = date;
+    public void setOrganizer(int organizer) {
+        this.organizer = organizer;
     }
 
-    public boolean hasAttended() {
-        return mAttended;
+    public String getTime() {
+        return time;
     }
 
-    public void setAttended(boolean attended) {
-        mAttended = attended;
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public int getClassSize() {
+        return classSize;
+    }
+
+    public void setClassSize(int classSize) {
+        this.classSize = classSize;
+    }
+
+    public int getAttendanceID() {
+        return attendanceID;
+    }
+
+    public void setAttendanceID(int attendanceID) {
+        this.attendanceID = attendanceID;
     }
 }

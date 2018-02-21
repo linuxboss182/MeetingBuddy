@@ -1,6 +1,8 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
 
+import android.content.Context;
+
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -10,15 +12,24 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 
 public class NetworkManager {
 
     public static final String url = "http://10.0.2.2:8000";
-
-
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    OkHttpClient client = new OkHttpClient();
+    private Context c;
+    private OkHttpClient client;
+
+    public NetworkManager(Context context) {
+        c = context;
+        client = new OkHttpClient();
+        CookieManager cookieManager = new CookieManager();
+        cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+        client.setCookieHandler(cookieManager);
+    }
 
     Call post(String url, String json, Callback callback) {
         System.out.println("Test");

@@ -10,7 +10,6 @@ var db = require('../DB/DB');
 
 //Test call
 router.get('/', function(req, res, next) {
-    db.readAllRows();
     res.send('respond with a resource');
 });
 

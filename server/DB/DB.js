@@ -9,7 +9,7 @@ var db = new sqlite3.Database('./database.db');
 db.init = function(){
     console.log("Loading DB");
 
-    db.run("CREATE TABLE IF NOT EXISTS lorem (info TEXT)", db.insertRows);
+//    db.run("CREATE TABLE IF NOT EXISTS lorem (info TEXT)", db.insertRows);
 
     //Tables
     db.run("CREATE TABLE IF NOT EXISTS Account (" +

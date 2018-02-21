@@ -15,6 +15,9 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 
@@ -83,29 +86,56 @@ public class UserLoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 //Log in
-
-                String json = "{name: " + user_name + ", password: " + user_password + "}";
-                networkManager.post(networkManager.url+"/Login", json, new Callback() {
+                JSONObject creds = new JSONObject();
+                try {
+                    creds.put("username", user_name);
+                    creds.put("password", user_password);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                networkManager.post(NetworkManager.url+"/Login", creds.toString(), new Callback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
                         System.out.println("Failed to connect");
-
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                     @Override
                     public void onResponse(Response response) throws IOException {
-                        String responseStr = response.body().string();
-                        final String messageText = "Status code : " + response.code() +
-                                "n" +
-                                "Response body : " + responseStr;
-                        System.out.println("Received response");
-                        Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_LONG).show();
+                        final String responseStr = response.body().string();
+                        final int statusCode = response.code();
+                        try {
+                            final JSONObject jsonRes = new JSONObject(responseStr);
+                            final String status = jsonRes.getString("status");
+
+//                        final String messageText = "Status code : " + response.code() +
+//                                "n" +
+//                                "Response body : " + responseStr;
+//                        System.out.println("Received response");
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+
+                        if(status.equals("success")) {
+                            //Go to My meetings
+                            Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
+                            startActivity(i);
+                        }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
-
-
-                //Go to My meetings
-                Intent i = new Intent(getApplicationContext(),MyMeetingActivity.class);
-                startActivity(i);
             }
         });
 

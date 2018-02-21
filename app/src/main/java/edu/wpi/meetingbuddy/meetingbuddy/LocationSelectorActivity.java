@@ -32,6 +32,7 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        super.onBackPressed();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
@@ -64,7 +65,7 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("picked_point",latLng);
-                setResult(Activity.RESULT_OK,returnIntent);
+                setResult(Activity.RESULT_OK, returnIntent);
             }
         });
     }

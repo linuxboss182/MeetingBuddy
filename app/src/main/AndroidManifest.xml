@@ -58,8 +58,7 @@
         <activity
             android:name=".PeopleSearchActivity"
             android:label="@string/title_activity_people_search"
-            android:parentActivityName=".CreateMeetingActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".CreateMeetingActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.meetingbuddy.meetingbuddy.CreateMeetingActivity" />

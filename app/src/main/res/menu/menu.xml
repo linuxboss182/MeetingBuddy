@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/search"
-        android:icon="@android:drawable/ic_search_category_default"
-        android:orderInCategory="100"
-        android:title="Search"
+        android:id="@+id/app_bar_search"
+        android:title="@string/search"
+        android:icon="@drawable/ic_search_black_24dp"
         app:showAsAction="always"
-        />
-    <item
-        android:id="@+id/done"
-        android:title="Done"
-        android:icon="@drawable/rounded_edit"
-        />
-
-
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 </menu>

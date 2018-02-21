@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,16 @@ import java.util.Locale;
 
 public class CreateMeetingActivity extends AppCompatActivity {
 
+    EditText nameET;
+    String nameString;
     EditText dateET;
+    String dateString;
     EditText timeET;
+    String timeString;
     EditText peopleET;
+    String peopleString;
     EditText locationET;
+    String locationString;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     Calendar myCalendar;
@@ -45,19 +52,23 @@ public class CreateMeetingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         myCalendar = Calendar.getInstance();
+        nameET = findViewById(R.id.nameET);
         dateET = findViewById(R.id.dateET);
         timeET = findViewById(R.id.timeET);
         peopleET = findViewById(R.id.peopleET);
         locationET = findViewById(R.id.locationET);
 
-
         ////////// Listeners ///////////////////////////
+
+
+
         peopleET.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-               Intent i = new Intent(getApplicationContext(), PeopleSearchActivity.class);
-               startActivity(i);
+                Intent intent = new Intent(getApplicationContext(), PeopleSearchActivity.class);
+                //intent.putExtras(data);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -128,6 +139,9 @@ public class CreateMeetingActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
                 locationET.setText(latLng.latitude + ", " + latLng.longitude);
+
+                String[] lop = data.getStringArrayExtra("listOfPeople");
+                peopleET.setText(lop.toString());
             }
         }
     }
@@ -143,6 +157,37 @@ public class CreateMeetingActivity extends AppCompatActivity {
         String myFormat = "hh:mm a"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         timeET.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        // Save UI state changes to the savedInstanceState.
+        // This bundle will be passed to onCreate if the process is
+        // killed and restarted.
+        savedInstanceState.putString("Name", nameString);
+        savedInstanceState.putString("Time", timeString);
+        savedInstanceState.putString("Date", dateString);
+        savedInstanceState.putString("People", peopleString);
+        savedInstanceState.putString("Location", locationString);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore UI state from the savedInstanceState.
+        // This bundle has also been passed to onCreate.
+        String name = savedInstanceState.getString("Name");
+        String time = savedInstanceState.getString("Time");
+        String date = savedInstanceState.getString("Date");
+        String people = savedInstanceState.getString("People");
+        String location = savedInstanceState.getString("Location");
+
+        nameET.setText(name);
+        timeET.setText(time);
+        dateET.setText(date);
+        peopleET.setText(people);
+        locationET.setText(location);
     }
 
 }

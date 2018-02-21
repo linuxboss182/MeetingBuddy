@@ -88,6 +88,8 @@ public class UserLoginActivity extends Activity {
                 networkManager.post(networkManager.url+"/Login", json, new Callback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
+                        System.out.println("Failed to connect");
+
                     }
                     @Override
                     public void onResponse(Response response) throws IOException {
@@ -95,12 +97,8 @@ public class UserLoginActivity extends Activity {
                         final String messageText = "Status code : " + response.code() +
                                 "n" +
                                 "Response body : " + responseStr;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                        System.out.println("Received response");
+                        Toast.makeText(getApplicationContext(), messageText, Toast.LENGTH_LONG).show();
                     }
                 });
 

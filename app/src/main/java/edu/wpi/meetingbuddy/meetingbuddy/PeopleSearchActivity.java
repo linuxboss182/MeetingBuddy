@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -35,7 +36,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         lop = new ArrayList<>();
-        lop.add(new Account());
+        //lop.add(getData(""));
 
         final ListView listView = findViewById(R.id.listView);
         adapter = new CustomAdapter(this, R.layout.item_row, lop);
@@ -62,7 +63,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        //MenuItem doneItem = menu.findItem(R.id.done);
+        MenuItem doneItem = menu.findItem(R.id.done);
 //
 
 //        doneItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -101,18 +102,17 @@ public class PeopleSearchActivity extends AppCompatActivity {
 
      }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.activity_main_update_menu_item:
-//                Toast.makeText(this, "update clicked", Toast.LENGTH_SHORT).show();
-//                return true;
-//
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.done:
+                Toast.makeText(this, "done clicked", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 
 
 

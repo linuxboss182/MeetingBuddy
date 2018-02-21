@@ -84,7 +84,6 @@ public class UserLoginActivity extends Activity {
             public void onClick(View v) {
                 //Log in
 
-
                 String json = "{name: " + user_name + ", password: " + user_password + "}";
                 networkManager.post(networkManager.url+"/Login", json, new Callback() {
                     @Override

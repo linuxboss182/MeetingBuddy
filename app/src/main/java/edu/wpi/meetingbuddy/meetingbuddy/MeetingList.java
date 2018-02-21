@@ -28,8 +28,8 @@ public class MeetingList {
         myList = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             Meeting crime = new Meeting();
-            crime.setTitle("Meeting #" + i);
-            crime.setAttended(i % 2 == 0);
+//            crime.setTitle("Meeting #" + i);
+//            crime.setAttended(i % 2 == 0);
             myList.add(crime);
         }
     }
@@ -38,9 +38,9 @@ public class MeetingList {
         return myList;
     }
 
-    public Meeting getMeeting(UUID id) {
+    public Meeting getMeeting(int id) {
         for (Meeting crime : myList) {
-            if (crime.getId().equals(id)) {
+            if (crime.getMeetingID() == (id)) {
                 return crime;
             }
         }

@@ -87,9 +87,9 @@ public class MyMeetingFragment extends Fragment{
 
         public void bind(Meeting meeting) {
             mMeeting = meeting;
-            mTitleTextView.setText(mMeeting.getTitle());
-            mDateTextView.setText(mMeeting.getDate().toString());
-            mSolvedImageView.setVisibility(meeting.hasAttended() ? View.VISIBLE : View.GONE);
+            mTitleTextView.setText(mMeeting.getAttendanceID());
+            mDateTextView.setText(mMeeting.getDate());
+//            mSolvedImageView.setVisibility(meeting.hasAttended() ? View.VISIBLE : View.GONE); TODO
         }
 
         @Override

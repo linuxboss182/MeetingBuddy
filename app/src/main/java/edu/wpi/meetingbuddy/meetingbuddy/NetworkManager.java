@@ -10,7 +10,7 @@ import com.squareup.okhttp.RequestBody;
 
 public class NetworkManager {
 
-    public static final String url = "localhost:8000";
+    public static final String url = "http://localhost:8000";
 
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");

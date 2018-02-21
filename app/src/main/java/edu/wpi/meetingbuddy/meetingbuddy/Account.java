@@ -25,7 +25,7 @@ public class Account implements Serializable {
     }
 
     public void fromJSON(JSONObject json) throws JSONException {
-        //Parse from string
+        //Parse from json
         this.accountID = json.getInt("accountID");
         this.username = json.getString("username");
         this.password = json.getString("password");

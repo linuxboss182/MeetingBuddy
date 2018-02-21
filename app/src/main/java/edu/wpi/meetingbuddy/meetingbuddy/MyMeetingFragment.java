@@ -11,7 +11,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +34,8 @@ public class MyMeetingFragment extends Fragment{
     private RecyclerView mMeetingRecyclerView;
     private MeetingAdapter mAdapter;
     private Button add;
+
+    private NetworkManager networkManager = new NetworkManager();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,15 +69,51 @@ public class MyMeetingFragment extends Fragment{
     }
 
     private void updateUI() {
-        MeetingList meetingList = MeetingList.get(getActivity());
-        List<Meeting> meetings = meetingList.getMeetings();
+//        MeetingList meetingList = MeetingList.get(getActivity());
+//        List<Meeting> meetings = meetingList.getMeetings();
 
-        if (mAdapter == null) {
-            mAdapter = new MeetingAdapter(meetings);
-            mMeetingRecyclerView.setAdapter(mAdapter);
-        } else {
-            mAdapter.notifyDataSetChanged();
-        }
+        networkManager.post(NetworkManager.url+"/getMyMeetings", "", new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                System.out.println("Failed to connect");
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getActivity(), "Lost Connection", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+            @Override
+            public void onResponse(Response response) throws IOException {
+                final String responseStr = response.body().string();
+                final int statusCode = response.code();
+                try {
+                    final JSONObject jsonRes = new JSONObject(responseStr);
+                    final String status = jsonRes.getString("status");
+
+                    if(status.equals("success")) {
+                        //Get my meetings
+                        ArrayList<Meeting> meetings = new ArrayList<>();
+                        JSONArray jsonMeetings = jsonRes.getJSONArray("meetings");
+                        for(int i=0;i<jsonMeetings.length();i++){
+                            Meeting newMeeting = new Meeting();
+                            newMeeting.fromJSON(jsonMeetings.getJSONObject(i));
+                            meetings.add(newMeeting);
+                        }
+
+                        //List my meetings
+                        if (mAdapter == null) {
+                            mAdapter = new MeetingAdapter(meetings);
+                            mMeetingRecyclerView.setAdapter(mAdapter);
+                        } else {
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private class MeetingHolder extends RecyclerView.ViewHolder

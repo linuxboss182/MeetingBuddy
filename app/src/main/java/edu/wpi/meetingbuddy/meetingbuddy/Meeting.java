@@ -1,5 +1,6 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -17,8 +18,8 @@ public class Meeting implements Serializable {
     private String time;
     private String date;
     private String place;
-    private float longitude;
-    private float latitude;
+    private double longitude;
+    private double latitude;
     private int classSize;
     private int attendanceID;
 
@@ -28,9 +29,18 @@ public class Meeting implements Serializable {
         return obj;
     }
 
-    public void fromJSON(String json){
-        //Parse from string
-        JSONObject obj = new JSONObject();
+    public void fromJSON(JSONObject json) throws JSONException {
+        //Parse from json
+        this.meetingID = json.getInt("meetingID");
+        this.meetingID = json.getInt("organizer");
+        this.time = json.getString("time");
+        this.date = json.getString("date");
+        this.place = json.getString("place");
+        this.longitude = json.getDouble("longitude");
+        this.latitude = json.getDouble("latitude");
+        this.classSize = json.getInt("classSize");
+        this.attendanceID = json.getInt("attendanceID");
+
     }
 
     public int getMeetingID() {
@@ -73,7 +83,7 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -81,7 +91,7 @@ public class Meeting implements Serializable {
         this.longitude = longitude;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 

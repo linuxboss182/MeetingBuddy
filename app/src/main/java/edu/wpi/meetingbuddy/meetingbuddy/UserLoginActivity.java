@@ -126,8 +126,13 @@ public class UserLoginActivity extends Activity {
 
 
                         if(status.equals("success")) {
-                            //Go to My meetings
+                            //Get my account information
+                            Account myAccount = new Account();
+                            myAccount.fromJSON(jsonRes);
+
+                            //Go to My meetings, send it my account information
                             Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
+                            i.putExtra("Account", myAccount);
                             startActivity(i);
                         }
 

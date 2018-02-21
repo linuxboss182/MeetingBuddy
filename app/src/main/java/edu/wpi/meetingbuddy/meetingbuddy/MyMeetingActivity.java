@@ -15,6 +15,8 @@ public class MyMeetingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Account myAccount = (Account) getIntent().getSerializableExtra("Account");
+
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();

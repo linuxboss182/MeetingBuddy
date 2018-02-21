@@ -2,6 +2,7 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
  * Created by Anh on 2/17/2018.
  */
 
-public class Meeting {
+public class Meeting implements Serializable {
 
     private int meetingID;
     private int organizer;

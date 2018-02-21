@@ -1,12 +1,15 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * Created by jtgaulin on 2/20/18.
  */
 
-public class Account {
+public class Account implements Serializable {
     private int accountID;
     private String username;
     private String password;
@@ -21,9 +24,16 @@ public class Account {
         return obj;
     }
 
-    public void fromJSON(String json){
+    public void fromJSON(JSONObject json) throws JSONException {
         //Parse from string
-        JSONObject obj = new JSONObject();
+        this.accountID = json.getInt("accountID");
+        this.username = json.getString("username");
+        this.password = json.getString("password");
+        this.phoneNum = json.getString("phoneNum");
+        this.firstName = json.getString("firstName");
+        this.lastName = json.getString("lastName");
+        this.schedule = json.getString("schedule");
+
     }
 
     public int getAccountID() {

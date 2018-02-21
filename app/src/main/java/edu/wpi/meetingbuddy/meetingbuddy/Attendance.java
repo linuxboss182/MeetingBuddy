@@ -2,11 +2,13 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by jtgaulin on 2/20/18.
  */
 
-public class Attendance {
+public class Attendance implements Serializable {
     private int aid;
     private int accountID;
     private int meetingID;

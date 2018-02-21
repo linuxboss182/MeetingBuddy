@@ -35,12 +35,14 @@ public class MyMeetingFragment extends Fragment{
     private MeetingAdapter mAdapter;
     private Button add;
 
-    private NetworkManager networkManager = new NetworkManager();
+    private NetworkManager networkManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.my_meetings, container, false);
+
+        networkManager = ((ApplicationManager) this.getActivity().getApplication()).getNetworkManager();
 
         //Add new meeting
         add = (Button) view.findViewById(R.id.add_meeting);
@@ -69,9 +71,6 @@ public class MyMeetingFragment extends Fragment{
     }
 
     private void updateUI() {
-//        MeetingList meetingList = MeetingList.get(getActivity());
-//        List<Meeting> meetings = meetingList.getMeetings();
-
         networkManager.post(NetworkManager.url+"/getMyMeetings", "", new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -83,32 +82,37 @@ public class MyMeetingFragment extends Fragment{
                     }
                 });
             }
+
             @Override
             public void onResponse(Response response) throws IOException {
                 final String responseStr = response.body().string();
                 final int statusCode = response.code();
                 try {
-                    final JSONObject jsonRes = new JSONObject(responseStr);
-                    final String status = jsonRes.getString("status");
 
-                    if(status.equals("success")) {
-                        //Get my meetings
-                        ArrayList<Meeting> meetings = new ArrayList<>();
-                        JSONArray jsonMeetings = jsonRes.getJSONArray("meetings");
-                        for(int i=0;i<jsonMeetings.length();i++){
-                            Meeting newMeeting = new Meeting();
-                            newMeeting.fromJSON(jsonMeetings.getJSONObject(i));
-                            meetings.add(newMeeting);
-                        }
-
-                        //List my meetings
-                        if (mAdapter == null) {
-                            mAdapter = new MeetingAdapter(meetings);
-                            mMeetingRecyclerView.setAdapter(mAdapter);
-                        } else {
-                            mAdapter.notifyDataSetChanged();
-                        }
+                    //Get meetings from server
+                    final JSONArray jsonMeetings = new JSONArray(responseStr);
+                    ArrayList<Meeting> meetings = new ArrayList<>();
+                    for(int i=0;i<jsonMeetings.length();i++){
+                        Meeting newMeeting = new Meeting();
+                        newMeeting.fromJSON(jsonMeetings.getJSONObject(i));
+                        meetings.add(newMeeting);
                     }
+
+                    //update UI
+                    final ArrayList<Meeting> uimeeting = meetings;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //List my meetings
+                            if (mAdapter == null) {
+                                mAdapter = new MeetingAdapter(uimeeting);
+                                mMeetingRecyclerView.setAdapter(mAdapter);
+                            } else {
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                        }
+                    });
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

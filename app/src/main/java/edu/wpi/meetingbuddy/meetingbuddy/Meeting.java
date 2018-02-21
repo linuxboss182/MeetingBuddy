@@ -15,6 +15,7 @@ public class Meeting implements Serializable {
 
     private int meetingID;
     private int organizer;
+    private String name;
     private String time;
     private String date;
     private String place;
@@ -32,14 +33,17 @@ public class Meeting implements Serializable {
     public void fromJSON(JSONObject json) throws JSONException {
         //Parse from json
         this.meetingID = json.getInt("meetingID");
-        this.meetingID = json.getInt("organizer");
+        this.organizer = json.getInt("organizer");
+        this.name = json.getString("name");
         this.time = json.getString("time");
         this.date = json.getString("date");
         this.place = json.getString("place");
         this.longitude = json.getDouble("longitude");
         this.latitude = json.getDouble("latitude");
         this.classSize = json.getInt("classSize");
-        this.attendanceID = json.getInt("attendanceID");
+        this.attendanceID = json.getInt("aid");
+
+        System.out.println(name);
 
     }
 

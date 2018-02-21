@@ -35,13 +35,14 @@ public class UserLoginActivity extends Activity {
     private String user_name;
     private String user_password;
 
-    private NetworkManager networkManager = new NetworkManager();
-
+    private NetworkManager networkManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_log_in);
+
+        networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
 
         username = findViewById(R.id.username);
         username.addTextChangedListener(new TextWatcher() {

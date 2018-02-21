@@ -24,13 +24,17 @@ router.post('/newAccount', function(req, res, next) {
     var schedule = req.body.schedule;
 
     //Check account is not already taken
-
-    //Insert account
-    var id = null;
-    var stmt = db.prepare("INSERT INTO Account VALUES (?,?,?,?,?,?,?)");
-    stmt.run(id, username, password, phoneNum, firstName, lastName, schedule);
-
-    res.json({"status": "success"});
+    db.get("SELECT * FROM Account WHERE username = ?", [username], function(err,row){
+        if(!err && !row){ //If no error and no username already exists
+            //Insert account
+            var id = null;
+            var stmt = db.prepare("INSERT INTO Account VALUES (?,?,?,?,?,?,?)");
+            stmt.run(id, username, password, phoneNum, firstName, lastName, schedule);
+            res.json({"status": "success"});
+        }else{
+            res.json({"status": "Username Already Taken"});
+        }
+    });
 
 });
 

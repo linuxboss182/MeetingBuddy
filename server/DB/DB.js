@@ -24,6 +24,7 @@ db.init = function(){
     db.run("CREATE TABLE IF NOT EXISTS Meeting (" +
                                                 "meetingID INTEGER PRIMARY KEY, " +
                                                 "organizer INTEGER, " +
+                                                "name TEXT, " +
                                                 "time TEXT, " +
                                                 "date TEXT, " +
                                                 "place TEXT, " +

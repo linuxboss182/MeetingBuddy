@@ -77,6 +77,7 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
     var latitude = req.body.latitude;
     var classSize = req.body.classSize;
     var attendance = req.body.attendance;
+    var name = req.body.name;
 
     var aid = 0; //TODO
     var mid = 0; //TODO
@@ -86,8 +87,8 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
     astmt.run(aid, organizer, mid, 'joined');
 
     //Insert meeting
-    var mstmt = db.prepare("INSERT INTO Meeting VALUES (?,?,?,?,?,?,?,?,?)");
-    mstmt.run(mid, organizer, time, date, place, longitude, latitude, classSize, aid);
+    var mstmt = db.prepare("INSERT INTO Meeting VALUES (?, ?,?,?,?,?,?,?,?,?)");
+    mstmt.run(mid, organizer, name, time, date, place, longitude, latitude, classSize, aid);
 
     res.json({"status": "success"});
 });
@@ -149,6 +150,20 @@ router.get('/getMeeting', function(req, res, next) {
     });
 });
 
+router.post('/getMyMeetings', requireLogin, function(req, res, next) {
+    var accountID = req.session.accountID; //Logged in user
+
+    var meetingID = req.body.meetingID;
+
+    db.all("SELECT * FROM Attendance, Meeting WHERE accountID = ?", [accountID], function (err, rows) {
+        if(err){
+            res.json({"status": "Error finding attendance"});
+        }else{
+            console.log(rows)
+            res.json(rows);
+        }
+    });
+});
 
 //Helpers
 function requireLogin(req, res, next) {

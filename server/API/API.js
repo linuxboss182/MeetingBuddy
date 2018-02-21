@@ -26,7 +26,7 @@ router.post('/newAccount', function(req, res, next) {
     //Check account is not already taken
 
     //Insert account
-    var id = 0; //TODO find unused ID
+    var id = null;
     var stmt = db.prepare("INSERT INTO Account VALUES (?,?,?,?,?,?,?)");
     stmt.run(id, username, password, phoneNum, firstName, lastName, schedule);
 
@@ -79,8 +79,8 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
     var attendance = req.body.attendance;
     var name = req.body.name;
 
-    var aid = 0; //TODO
-    var mid = 0; //TODO
+    var aid = null;
+    var mid = null;
 
     //Insert attendance
     var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
@@ -99,7 +99,7 @@ router.post('/addAttendance', requireLogin, function(req, res, next) {
     var meetingID = req.body.meetingID;
     var inviteID = req.body.accountID;
 
-    var aid = 0; //TODO
+    var aid = null;
 
     var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
     astmt.run(aid, inviteID, meetingID, 'invited');

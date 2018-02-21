@@ -140,7 +140,7 @@ public class MyMeetingFragment extends Fragment{
 
         public void bind(Meeting meeting) {
             mMeeting = meeting;
-            mTitleTextView.setText(mMeeting.getPlace());
+            mTitleTextView.setText(mMeeting.getName());
             mDateTextView.setText(mMeeting.getDate());
 //            mSolvedImageView.setVisibility(meeting.hasAttended() ? View.VISIBLE : View.GONE); TODO
         }
@@ -148,6 +148,7 @@ public class MyMeetingFragment extends Fragment{
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(getActivity(), StudentMeetingActivity.class);
+            intent.putExtra("Meeting", mMeeting);
             startActivity(intent);
         }
     }

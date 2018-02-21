@@ -91,7 +91,7 @@ public class Meeting implements Serializable {
         return longitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -99,7 +99,7 @@ public class Meeting implements Serializable {
         return latitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -117,5 +117,13 @@ public class Meeting implements Serializable {
 
     public void setAttendanceID(int attendanceID) {
         this.attendanceID = attendanceID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

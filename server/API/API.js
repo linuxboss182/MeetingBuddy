@@ -194,6 +194,20 @@ router.post('/getMyMeetings', requireLogin, function(req, res, next) {
     });
 });
 
+router.get('/getAccount', function(req, res, next) {
+//    var accountID = req.session.accountID; //Logged in user
+
+    var accountID = req.body.accountID;
+
+    db.get("SELECT * FROM Account WHERE accountID = ?", [accountID], function(err,row){
+        if(err || !row){ //If no error or no account found
+            res.json({"status": "Error finding Account"});
+        }else{
+            res.json(row);
+        }
+    });
+});
+
 //Helpers
 function requireLogin(req, res, next) {
     if (req.session && req.session.isLoggedIn)

@@ -45,6 +45,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
+        networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
+
         //Username
         username = findViewById(R.id.username);
         username.addTextChangedListener(new TextWatcher() {
@@ -144,9 +146,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                 try {
                     creds.put("username", user_name);
                     creds.put("password", user_password);
-                    creds.put("phone", phone);
-                    creds.put("first_name", firstname);
-                    creds.put("last_name", lastname);
+                    creds.put("phoneNum", phone);
+                    creds.put("firstName", firstname);
+                    creds.put("lastName", lastname);
                     creds.put("schedule", schedule);
 
                 } catch (JSONException e) {

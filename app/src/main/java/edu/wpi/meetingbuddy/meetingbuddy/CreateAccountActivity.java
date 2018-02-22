@@ -171,10 +171,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                             final JSONObject jsonRes = new JSONObject(responseStr);
                             final String status = jsonRes.getString("status");
 
-//                        final String messageText = "Status code : " + response.code() +
-//                                "n" +
-//                                "Response body : " + responseStr;
-//                        System.out.println("Received response");
 
                             runOnUiThread(new Runnable() {
                                 @Override

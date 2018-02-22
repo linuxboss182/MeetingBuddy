@@ -63,16 +63,12 @@ public class PeopleSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        MenuItem doneItem = menu.findItem(R.id.done);
 //
 
 //        doneItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
 //            @Override
 //            public boolean onMenuItemClick(MenuItem item) {
-//                Intent returnIntent = new Intent();
-//                returnIntent.putExtra("listOfPeople", lop);
-//                setResult(Activity.RESULT_OK, returnIntent);
-//                return true;
+//
 //            }
 //        });
         return true;
@@ -106,7 +102,10 @@ public class PeopleSearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.done:
-                Toast.makeText(this, "done clicked", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("listOfPeople", lop);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

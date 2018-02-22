@@ -14,7 +14,7 @@ db.init = function(){
     //Tables
     db.run("CREATE TABLE IF NOT EXISTS Account (" +
                                                 "accountID INTEGER PRIMARY KEY, " +
-                                                "username TEXT, " +
+                                                "username TEXT UNIQUE, " +
                                                 "password TEXT, " +
                                                 "phoneNum TEXT, " +
                                                 "firstName TEXT, " +

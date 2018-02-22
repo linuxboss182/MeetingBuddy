@@ -116,14 +116,24 @@ router.post('/addAttendance', requireLogin, function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 
     var meetingID = req.body.meetingID;
-    var inviteID = req.body.accountID;
+    var inviteUsername = red.body.username
+//    var inviteID = req.body.accountID;
 
-    var aid = null;
+    //Find account ID for the username
+    var inviteID;
+    db.get("SELECT * FROM Account WHERE username = ?", [username], function(err,row){
+        if(!err && row){ //If no error and username exists
+            inviteID = row.accountID;
+                var aid = null;
+                var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
+                astmt.run(aid, inviteID, meetingID, 'invited');
 
-    var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
-    astmt.run(aid, inviteID, meetingID, 'invited');
+                res.json({"status": "success"});
+        }else{
+            res.json({"status": "Account with that username not found"});
+        }
+    }
 
-    res.json({"status": "success"});
 });
 
 router.post('/updateAttendance', requireLogin, function(req, res, next) {

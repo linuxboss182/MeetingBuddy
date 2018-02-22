@@ -62,7 +62,7 @@ router.post('/Search', function(req, res, next) {
     console.log(username)
 
     //Load account with given username and check for password
-    db.all("SELECT * FROM Account WHERE username LIKE '%' || ? || '%' ", [username], function(err,rows){
+    db.all("SELECT username FROM Account WHERE username LIKE '%' || ? || '%' ", [username], function(err,rows){
         if(err){
             res.json({"status": "Error searching"});
         }else{

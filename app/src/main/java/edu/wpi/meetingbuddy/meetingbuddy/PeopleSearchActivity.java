@@ -2,46 +2,84 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PeopleSearchActivity extends AppCompatActivity {
 
-    //MaterialSearchView materialSearchView;
-    MenuItem doneBtn;
-    ArrayList lop;
     SearchView searchView;
     ListView listView;
     CustomAdapter adapter;
+
+    private NetworkManager networkManager;
+    ArrayList<String> usernames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_people_search);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
 
+        networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        lop = new ArrayList<>();
-        //lop.add(getData(""));
+        //try to retrieve list of usernames from db
+        try {
+            retrieveData();
+            //Log.e("usernames:", usernames.get(0));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        usernames.add("smcateer");
+        usernames.add("paul");
+        usernames.add("jesse");
+
 
         final ListView listView = findViewById(R.id.listView);
-        adapter = new CustomAdapter(this, R.layout.item_row, lop);
+        adapter = new CustomAdapter(this, R.layout.item_row, usernames);
+        listView.setAdapter(adapter);
+        adapter.addAll(usernames);
 
-        //listView.setOnItemClickListener(adapter, view, position, 1);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            //onItemClick() callback method
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                //Get ListView clicked item's corresponded Array element value
+                String clickedItemValue = usernames.get(position);
+
+                //Generate a Toast message
+                String toastMessage = "Position : "+position + " || Value : " + clickedItemValue;
+
+                //Apply the ListView background color as user selected item value
+                listView.setBackgroundColor(Color.parseColor(clickedItemValue));
+
+                //Display user response as a Toast message
+                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -59,41 +97,30 @@ public class PeopleSearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                getData(newText);
+                //getData(newText);
                 return false;
             }
         });
-//
-
-//        doneItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//
-//            }
-//        });
         return true;
 
     }
 
     private void getData(String query) {
-        List<Account> output = new ArrayList<>();
-        List<Account> filteredOutput = new ArrayList<>();
+        List<String> output = new ArrayList<>();
+        List<String> filteredOutput = new ArrayList<>();
 
 
         if (searchView != null) {
-            for (Account acc: output) {
-                if (acc.getUsername().toLowerCase().startsWith(query.toLowerCase())){
-                    filteredOutput.add(acc);
+            for (String str: output) {
+                if (str.toLowerCase().startsWith(query.toLowerCase())){
+                    filteredOutput.add(str);
                 }
             }
         } else {
             filteredOutput = output;
-
-
         }
         adapter = new CustomAdapter(this, R.layout.item_row, filteredOutput);
         listView.setAdapter(adapter);
-
 
 
      }
@@ -103,7 +130,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.done:
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("listOfPeople", lop);
+                returnIntent.putExtra("listOfPeople", usernames);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 return true;
@@ -111,6 +138,32 @@ public class PeopleSearchActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void retrieveData() {
+        networkManager.post(NetworkManager.url + "/Search", "", new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                System.out.println("Failed to connect");
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                final String responseStr = response.body().string();
+                final int statusCode = response.code();
+                try {
+
+                    //Get usernames from server
+                    final JSONArray jsonUsernames = new JSONArray(responseStr);
+
+                    for (int i = 0; i < jsonUsernames.length(); i++) {
+                        usernames.add(i, jsonUsernames.getJSONObject(i).toString());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

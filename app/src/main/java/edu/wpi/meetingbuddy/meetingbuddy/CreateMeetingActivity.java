@@ -21,6 +21,7 @@ import android.widget.Toolbar;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -43,6 +44,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     Calendar myCalendar;
+    ArrayList<String> lop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.create_meeting);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
         myCalendar = Calendar.getInstance();
         nameET = findViewById(R.id.nameET);
@@ -60,15 +64,13 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
         ////////// Listeners ///////////////////////////
 
-
-
         peopleET.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PeopleSearchActivity.class);
                 //intent.putExtras(data);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, RESULT_OK);
             }
         });
 
@@ -76,8 +78,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                //Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
-                //startActivity(i);
+                Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
+                startActivity(i);
                 pickPointOnMap();
             }
         });
@@ -140,9 +142,15 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
                 locationET.setText(latLng.latitude + ", " + latLng.longitude);
 
-                String[] lop = data.getStringArrayExtra("listOfPeople");
-                peopleET.setText(lop.toString());
             }
+        }
+
+        if (resultCode == RESULT_OK) {
+            System.out.println("intent from people");
+            lop = data.getStringArrayListExtra("listOfPeople");
+            peopleET.setText(lop.toString());
+            //peopleET.setText("Ron");
+
         }
     }
 

@@ -17,7 +17,7 @@ import java.net.CookiePolicy;
 
 public class NetworkManager {
 
-    public static final String url = "http://10.0.2.2:8000";
+    public static final String url = "http://130.215.168.157";
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
     private Context c;

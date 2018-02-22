@@ -13,17 +13,17 @@ import android.widget.TextView;
 import java.util.List;
 
 /**
- * Created by Deepak kolhe on 2/7/2017.
+ * Created s7sal.
  */
 
-public class CustomAdapter extends ArrayAdapter<Account> {
+public class CustomAdapter extends ArrayAdapter<String> {
 
     Context context;
     int layoutResourceId;
-    List<Account> data=null;
+    List<String> data = null;
 
 
-    public CustomAdapter(Context context, int resource, List<Account> objects) {
+    public CustomAdapter(Context context, int resource, List<String> objects) {
         super(context, resource, objects);
 
         this.layoutResourceId = resource;
@@ -33,7 +33,7 @@ public class CustomAdapter extends ArrayAdapter<Account> {
 
     static class DataHolder
     {
-        //ImageView ivFlag;
+        //ImageView accImageView;
         TextView userName;
 
     }
@@ -52,7 +52,7 @@ public class CustomAdapter extends ArrayAdapter<Account> {
             convertView = inflater.inflate(layoutResourceId,parent,false);
 
             holder = new DataHolder();
-            //holder.ivFlag = (ImageView)convertView.findViewById(R.id.ivCountry);
+            //holder.accImageView = (ImageView)convertView.findViewById(R.id.accImageView);
             holder.userName = (TextView)convertView.findViewById(R.id.userNameTV);
 
             convertView.setTag(holder);
@@ -62,9 +62,9 @@ public class CustomAdapter extends ArrayAdapter<Account> {
             holder = (DataHolder)convertView.getTag();
         }
 
-        Account dataItem = data.get(position);
-        holder.userName.setText(dataItem.getUsername());
-        //holder.ivFlag.setImageResource(dataItem.resIdThumbnail);
+        String dataItem = data.get(position);
+        holder.userName.setText(dataItem);
+        //holder.accImageView.setImageResource(dataItem.resIdThumbnail);
 
         return convertView;
     }

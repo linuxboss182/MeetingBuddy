@@ -1,9 +1,13 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
     TextView locationText;
     TextView organizerText;
     TextView statusText;
+    Button callButton;
     String phoneNumber;
 
     @SuppressLint("DefaultLocale")
@@ -74,6 +79,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
         locationText = findViewById(R.id.LocationText);
         organizerText = findViewById(R.id.OrganizerText);
         statusText = findViewById(R.id.StatusText);
+        callButton = findViewById(R.id.callButton);
 
         // Init the widgets
         meetingText.setText(thisMeeting.getName());
@@ -81,6 +87,13 @@ public class StudentMeetingActivity extends AppCompatActivity {
         timeText.setText(thisMeeting.getTime());
         locationText.setText(String.format("%s%s%s%s", "Longitude: ",String.format("%1$,.2f", thisMeeting.getLongitude()), " Latitude: ",String.format("%1$,.2f", thisMeeting.getLatitude())));
         organizerText.setText(thisMeeting.getOrganizer());
+        callButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i=new Intent(Intent.ACTION_DIAL, Uri.parse(phoneNumber));
+                startActivity(i);
+            }
+        });
 
     }
 }

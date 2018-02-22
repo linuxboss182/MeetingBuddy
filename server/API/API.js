@@ -124,15 +124,15 @@ router.post('/addAttendance', requireLogin, function(req, res, next) {
     db.get("SELECT * FROM Account WHERE username = ?", [username], function(err,row){
         if(!err && row){ //If no error and username exists
             inviteID = row.accountID;
-                var aid = null;
-                var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
-                astmt.run(aid, inviteID, meetingID, 'invited');
+            var aid = null;
+            var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
+            astmt.run(aid, inviteID, meetingID, 'invited');
 
-                res.json({"status": "success"});
+            res.json({"status": "success"});
         }else{
             res.json({"status": "Account with that username not found"});
         }
-    }
+    });
 
 });
 

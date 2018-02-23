@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -34,9 +35,13 @@ public class PeopleSearchActivity extends AppCompatActivity {
     SearchView searchView;
     ListView listView;
     CustomAdapter adapter;
+    TextView selectedUsersTV;
 
     private NetworkManager networkManager;
-    ArrayList<String> usernames = new ArrayList<>();
+    ArrayList<String> usernames;
+    ArrayList<String> selectedUsers;
+    String allUsers;
+    String trimmed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,8 @@ public class PeopleSearchActivity extends AppCompatActivity {
         networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        usernames = new ArrayList<>();
+        selectedUsers = new ArrayList<>();
         //try to retrieve list of usernames from db
         try {
             retrieveData();
@@ -58,8 +65,12 @@ public class PeopleSearchActivity extends AppCompatActivity {
         usernames.add("paul");
         usernames.add("jesse");
 
+        allUsers= "";
+        trimmed = "";
+
 
         final ListView listView = findViewById(R.id.listView);
+        selectedUsersTV = findViewById(R.id.selectedUsersTV);
         adapter = new CustomAdapter(this, R.layout.item_row, usernames);
         listView.setAdapter(adapter);
         adapter.addAll(usernames);
@@ -74,12 +85,21 @@ public class PeopleSearchActivity extends AppCompatActivity {
                 String toastMessage = "Position : "+position + " || Value : " + clickedItemValue;
 
                 //Apply the ListView background color as user selected item value
-                listView.setBackgroundColor(Color.parseColor(clickedItemValue));
+                //listView.setBackgroundColor(Color.parseColor(clickedItemValue));
 
                 //Display user response as a Toast message
                 Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                addUserToSearchBar(clickedItemValue);
+
             }
         });
+
+    }
+
+    public void addUserToSearchBar(String user) {
+        allUsers = allUsers + user + ", ";
+        trimmed = allUsers.substring(0, allUsers.length()-2);
+        selectedUsersTV.setText(trimmed);
     }
 
     @Override
@@ -97,7 +117,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //getData(newText);
+                filterData(newText);
                 return false;
             }
         });
@@ -105,7 +125,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
 
     }
 
-    private void getData(String query) {
+    private void filterData(String query) {
         List<String> output = new ArrayList<>();
         List<String> filteredOutput = new ArrayList<>();
 
@@ -120,7 +140,8 @@ public class PeopleSearchActivity extends AppCompatActivity {
             filteredOutput = output;
         }
         adapter = new CustomAdapter(this, R.layout.item_row, filteredOutput);
-        listView.setAdapter(adapter);
+        //listView.setAdapter(adapter);
+        //adapter.addAll(usernames);
 
 
      }
@@ -130,7 +151,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.done:
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("listOfPeople", usernames);
+                returnIntent.putExtra("listOfPeople", trimmed);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 return true;

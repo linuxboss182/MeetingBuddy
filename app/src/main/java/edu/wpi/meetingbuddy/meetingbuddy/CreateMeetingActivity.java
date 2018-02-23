@@ -31,6 +31,9 @@ import java.util.Locale;
 
 public class CreateMeetingActivity extends AppCompatActivity {
 
+    static final int PICK_MAP_POINT_REQUEST = 999;  // The request code
+    static final int PICK_PEOPLE_REQUEST = 888;  // The request code
+
     EditText nameET;
     String nameString;
     EditText dateET;
@@ -44,7 +47,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     Calendar myCalendar;
-    ArrayList<String> lop;
+    String lop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PeopleSearchActivity.class);
                 //intent.putExtras(data);
-                startActivityForResult(intent, RESULT_OK);
+                startActivityForResult(intent, PICK_PEOPLE_REQUEST);
             }
         });
 
@@ -128,7 +131,6 @@ public class CreateMeetingActivity extends AppCompatActivity {
         });
     }
 
-    static final int PICK_MAP_POINT_REQUEST = 999;  // The request code
     private void pickPointOnMap() {
         Intent pickPointIntent = new Intent(this, LocationSelectorActivity.class);
         startActivityForResult(pickPointIntent, PICK_MAP_POINT_REQUEST);
@@ -144,13 +146,13 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
             }
         }
+        if (requestCode == PICK_PEOPLE_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                lop = data.getStringExtra("listOfPeople");
+                peopleET.setText(lop);
+                //peopleET.setText("Ron");
 
-        if (resultCode == RESULT_OK) {
-            System.out.println("intent from people");
-            lop = data.getStringArrayListExtra("listOfPeople");
-            peopleET.setText(lop.toString());
-            //peopleET.setText("Ron");
-
+            }
         }
     }
 

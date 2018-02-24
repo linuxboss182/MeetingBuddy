@@ -97,6 +97,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
     }
 
     public void addUserToSearchBar(String user) {
+        selectedUsers.add(user);
         allUsers = allUsers + user + ", ";
         trimmed = allUsers.substring(0, allUsers.length()-2);
         selectedUsersTV.setText(trimmed);
@@ -152,6 +153,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
             case R.id.done:
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("listOfPeople", trimmed);
+                returnIntent.putStringArrayListExtra("selectedArrayList", selectedUsers);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
                 return true;

@@ -24,6 +24,7 @@ import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,6 +59,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
     private NetworkManager networkManager;
     Calendar myCalendar;
     String lop;
+    JSONArray attendees;
+    ArrayList<String> selectedArrayList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +70,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
-
+        selectedArrayList = new ArrayList<>();
         myCalendar = Calendar.getInstance();
         nameET = findViewById(R.id.nameET);
         dateET = findViewById(R.id.dateET);
@@ -145,15 +148,21 @@ public class CreateMeetingActivity extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Create account
+                //Create meeting
                 //...
                 JSONObject creds = new JSONObject();
+
                 try {
                     creds.put("name", nameString);
                     creds.put("date", dateString);
                     creds.put("time", timeString);
-                    creds.put("people", peopleString);
-                    creds.put("location", locationString);
+                    //class size
+                    //long
+                    //lat
+                    //attendents names
+
+                    creds.put("attendents", attendees);
+                    creds.put("place", locationString);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -222,8 +231,12 @@ public class CreateMeetingActivity extends AppCompatActivity {
         if (requestCode == PICK_PEOPLE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 lop = data.getStringExtra("listOfPeople");
+                selectedArrayList = data.getStringArrayListExtra("selectedArrayList");
                 peopleET.setText(lop);
-                //peopleET.setText("Ron");
+                attendees = new JSONArray();
+                for (String user: selectedArrayList) {
+                    attendees.put(user);
+                }
 
             }
         }

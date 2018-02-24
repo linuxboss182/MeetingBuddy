@@ -81,7 +81,6 @@ public class CreateMeetingActivity extends AppCompatActivity {
         create = findViewById(R.id.createMeetingBtn);
 
         ////////// Listeners ///////////////////////////
-
         peopleET.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -152,7 +151,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 //Create meeting
                 //...
                 JSONObject creds = new JSONObject();
-
+                nameString =  nameET.getText().toString();
                 try {
                     creds.put("name", nameString);
                     creds.put("date", dateString);

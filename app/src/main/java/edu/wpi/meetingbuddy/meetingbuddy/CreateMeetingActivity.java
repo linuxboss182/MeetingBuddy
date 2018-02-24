@@ -156,13 +156,17 @@ public class CreateMeetingActivity extends AppCompatActivity {
                     creds.put("name", nameString);
                     creds.put("date", dateString);
                     creds.put("time", timeString);
-                    //class size
-                    //long
-                    //lat
-                    //attendents names
+                    creds.put("people", peopleString);
+                    creds.put("location", locationString);
 
                     creds.put("attendents", attendees);
                     creds.put("place", locationString);
+
+                    creds.put("organizer", 0);
+                    creds.put("place", "");
+                    creds.put("longitude", 0);
+                    creds.put("latitude", 0);
+                    creds.put("classSize", 0);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -194,13 +198,9 @@ public class CreateMeetingActivity extends AppCompatActivity {
                             });
 
                             if(status.equals("success")) {
-                                //Get my account information
-                                Account myAccount = new Account();
-                                myAccount.fromJSON(jsonRes);
 
                                 //Go to My meetings, send it my account information
                                 Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
-                                i.putExtra("Account", myAccount);
                                 startActivity(i);
                             }
 

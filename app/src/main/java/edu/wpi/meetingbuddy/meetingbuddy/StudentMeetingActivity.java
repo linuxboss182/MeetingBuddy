@@ -67,7 +67,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                phoneNumber = response.body().toString();
+                phoneNumber = response.body().string();
                 System.out.println("Received phone number: " + phoneNumber);
             }
         });

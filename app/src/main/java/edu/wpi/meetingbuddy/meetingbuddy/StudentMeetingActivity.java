@@ -86,7 +86,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
         dateText.setText(thisMeeting.getDate());
         timeText.setText(thisMeeting.getTime());
         locationText.setText(String.format("%s%s%s%s", "Longitude: ",String.format("%1$,.2f", thisMeeting.getLongitude()), " Latitude: ",String.format("%1$,.2f", thisMeeting.getLatitude())));
-        organizerText.setText(thisMeeting.getOrganizer());
+        organizerText.setText(String.format("%s", thisMeeting.getOrganizer()));
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

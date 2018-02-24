@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -19,7 +20,14 @@ import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,8 +52,10 @@ public class CreateMeetingActivity extends AppCompatActivity {
     String peopleString;
     EditText locationET;
     String locationString;
+    Button create;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
+    private NetworkManager networkManager;
     Calendar myCalendar;
     String lop;
 
@@ -56,7 +66,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
 
         myCalendar = Calendar.getInstance();
         nameET = findViewById(R.id.nameET);
@@ -64,6 +74,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
         timeET = findViewById(R.id.timeET);
         peopleET = findViewById(R.id.peopleET);
         locationET = findViewById(R.id.locationET);
+        create = findViewById(R.id.createMeetingBtn);
 
         ////////// Listeners ///////////////////////////
 
@@ -81,8 +92,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
-                startActivity(i);
+//                Intent i = new Intent(getApplicationContext(), LocationSelectorActivity.class);
+//                startActivity(i);
                 pickPointOnMap();
             }
         });
@@ -127,6 +138,68 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(CreateMeetingActivity.this, time, hour, minute, false);
                 timePickerDialog.setTitle("Choose time:");
                 timePickerDialog.show();
+            }
+        });
+
+        //Create account
+        create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Create account
+                //...
+                JSONObject creds = new JSONObject();
+                try {
+                    creds.put("name", nameString);
+                    creds.put("date", dateString);
+                    creds.put("time", timeString);
+                    creds.put("people", peopleString);
+                    creds.put("location", locationString);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                networkManager.post(NetworkManager.url+"/newMeeting", creds.toString(), new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        System.out.println("Failed to connect");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Failed to connect", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        final String responseStr = response.body().string();
+                        final int statusCode = response.code();
+                        try {
+                            final JSONObject jsonRes = new JSONObject(responseStr);
+                            final String status = jsonRes.getString("status");
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+                            if(status.equals("success")) {
+                                //Get my account information
+                                Account myAccount = new Account();
+                                myAccount.fromJSON(jsonRes);
+
+                                //Go to My meetings, send it my account information
+                                Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
+                                i.putExtra("Account", myAccount);
+                                startActivity(i);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         });
     }

@@ -52,7 +52,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
     EditText peopleET;
     String peopleString;
     EditText locationET;
-    String locationString;
+    Double longDouble;
+    Double latDouble;
     Button create;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
@@ -156,17 +157,13 @@ public class CreateMeetingActivity extends AppCompatActivity {
                     creds.put("name", nameString);
                     creds.put("date", dateString);
                     creds.put("time", timeString);
-                    creds.put("people", peopleString);
-                    creds.put("location", locationString);
-
                     creds.put("attendents", attendees);
-                    creds.put("place", locationString);
 
                     creds.put("organizer", 0);
                     creds.put("place", "");
-                    creds.put("longitude", 0);
-                    creds.put("latitude", 0);
-                    creds.put("classSize", 0);
+                    creds.put("longitude", longDouble);
+                    creds.put("latitude", latDouble);
+                    creds.put("classSize", 5);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -224,7 +221,11 @@ public class CreateMeetingActivity extends AppCompatActivity {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 LatLng latLng = (LatLng) data.getParcelableExtra("picked_point");
+                latDouble = latLng.latitude;
+                longDouble = latLng.longitude;
                 locationET.setText(latLng.latitude + ", " + latLng.longitude);
+
+
 
             }
         }
@@ -246,13 +247,16 @@ public class CreateMeetingActivity extends AppCompatActivity {
     private void updateDate() {
         String myFormat = "MM/dd/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        dateET.setText(sdf.format(myCalendar.getTime()));
+        dateString = sdf.format(myCalendar.getTime());
+        dateET.setText(dateString);
     }
 
     private void updateTime() {
         String myFormat = "hh:mm a"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-        timeET.setText(sdf.format(myCalendar.getTime()));
+        timeString = sdf.format(myCalendar.getTime());
+        timeET.setText(timeString);
+
     }
 
     @Override
@@ -265,7 +269,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
         savedInstanceState.putString("Time", timeString);
         savedInstanceState.putString("Date", dateString);
         savedInstanceState.putString("People", peopleString);
-        savedInstanceState.putString("Location", locationString);
+        //savedInstanceState.putString("Location", locationString);
     }
 
     @Override

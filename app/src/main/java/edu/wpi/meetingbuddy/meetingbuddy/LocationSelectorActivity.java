@@ -34,7 +34,6 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        super.onBackPressed();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
@@ -43,6 +42,7 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
             Log.d("LOCATION", "Map Fragment is not null");
         }
         mapFragment.getMapAsync(this);
+
 
         selectLocationBtn = (Button) findViewById(R.id.selectLocationBtn);
 
@@ -61,7 +61,6 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
         //googleMap.addMarker(new MarkerOptions().position(worcester)
           //      .title("Marker in Worcester"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(worcester));
-
         mMap = googleMap;
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override

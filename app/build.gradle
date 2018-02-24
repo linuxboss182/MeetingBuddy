@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
@@ -18,7 +20,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
+        innerTest {
+            matchingFallbacks = ['debug', 'release']
+        }
     }
 
 }
@@ -35,4 +39,10 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.3.0'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     implementation 'com.android.support:gridlayout-v7:27.0.2'
+
+    implementation project(path : ':lib:When3Meet', configuration: 'default')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

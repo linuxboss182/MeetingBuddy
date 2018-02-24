@@ -1,1 +1,4 @@
 include ':app'
+include ':lib:When3Meet'
+
+project(':lib:When3Meet').projectDir = new File('lib/When3Meet/app')

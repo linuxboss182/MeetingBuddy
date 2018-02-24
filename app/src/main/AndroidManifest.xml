@@ -83,6 +83,13 @@
             </intent-filter>
         </activity>
 
+        <!--FindAvailabilityActivity -->
+        <activity android:name=".FindAvailabilityActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <!-- OrganizerMeetingActivity -->
         <activity android:name=".OrganizerMeetingActivity">
             <intent-filter>

@@ -196,7 +196,7 @@ router.post('/getMyMeetings', requireLogin, function(req, res, next) {
     });
 });
 
-router.get('/getAccount', function(req, res, next) {
+router.post('/getAccount', function(req, res, next) {
 //    var accountID = req.session.accountID; //Logged in user
 
     var accountID = req.body.accountID;

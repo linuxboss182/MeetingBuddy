@@ -67,6 +67,7 @@ public class MyMeetingFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
+        networkManager = ((ApplicationManager) this.getActivity().getApplication()).getNetworkManager();
         updateUI();
     }
 
@@ -90,7 +91,7 @@ public class MyMeetingFragment extends Fragment{
                 try {
 
                     //Get meetings from server
-                    final JSONArray jsonMeetings = new JSONArray(responseStr);
+                    final JSONArray jsonMeetings = new JSONArray(responseStr); //TODO FIX THIS
                     ArrayList<Meeting> meetings = new ArrayList<>();
                     for(int i=0;i<jsonMeetings.length();i++){
                         Meeting newMeeting = new Meeting();

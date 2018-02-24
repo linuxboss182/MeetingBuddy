@@ -45,6 +45,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.student_meeting_view);
 
         Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
+
         // Get the organizer's phone number
         JSONObject jason = new JSONObject();
         try {
@@ -52,8 +53,9 @@ public class StudentMeetingActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         NetworkManager networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
-        networkManager.get(NetworkManager.url + "/getAccount", jason.toString(), new Callback() {
+        networkManager.post(NetworkManager.url + "/getAccount", jason.toString(), new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 System.out.println("Failed to connect");
@@ -67,7 +69,15 @@ public class StudentMeetingActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                phoneNumber = response.body().string();
+                final String responseStr = response.body().string();
+                try {
+                    final JSONObject jsonRes = new JSONObject(responseStr);
+                    phoneNumber = jsonRes.getString("accountID");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println("Received phone number: " + phoneNumber);
             }
         });
@@ -90,7 +100,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(Intent.ACTION_DIAL, Uri.parse(phoneNumber));
+                Intent i=new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
                 startActivity(i);
             }
         });

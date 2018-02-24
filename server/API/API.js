@@ -105,6 +105,8 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
     var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
     astmt.run(aid, organizer, mid, 'joined');
 
+    console.log(attendance)
+
     //Insert meeting
     var mstmt = db.prepare("INSERT INTO Meeting VALUES (?, ?,?,?,?,?,?,?,?,?)");
     mstmt.run(mid, organizer, name, time, date, place, longitude, latitude, classSize, aid);
@@ -117,7 +119,7 @@ router.post('/addAttendance', requireLogin, function(req, res, next) {
 
     var meetingID = req.body.meetingID;
     var inviteUsername = red.body.username
-//    var inviteID = req.body.accountID;
+//  var inviteID = req.body.accountID;
 
     //Find account ID for the username
     var inviteID;

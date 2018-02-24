@@ -52,8 +52,8 @@ public class CreateMeetingActivity extends AppCompatActivity {
     EditText peopleET;
     String peopleString;
     EditText locationET;
-    Double longDouble;
-    Double latDouble;
+    Double longDouble = 0.0;
+    Double latDouble = 0.0;
     Button create;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
@@ -156,13 +156,12 @@ public class CreateMeetingActivity extends AppCompatActivity {
                     creds.put("name", nameString);
                     creds.put("date", dateString);
                     creds.put("time", timeString);
-                    creds.put("attendents", attendees);
-
-                    creds.put("organizer", 0);
+                    creds.put("attendance", attendees);
+                    creds.put("organizer", 0.0);
                     creds.put("place", "");
                     creds.put("longitude", longDouble);
                     creds.put("latitude", latDouble);
-                    creds.put("classSize", 5);
+                    creds.put("classSize", 5.0);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -223,8 +222,6 @@ public class CreateMeetingActivity extends AppCompatActivity {
                 latDouble = latLng.latitude;
                 longDouble = latLng.longitude;
                 locationET.setText(latLng.latitude + ", " + latLng.longitude);
-
-
 
             }
         }

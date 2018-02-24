@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("LOCATION", "LocationSelectorActivity onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_selector);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,6 +38,10 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
+
+        if(mapFragment != null) {
+            Log.d("LOCATION", "Map Fragment is not null");
+        }
         mapFragment.getMapAsync(this);
 
         selectLocationBtn = (Button) findViewById(R.id.selectLocationBtn);
@@ -68,6 +74,8 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
                 setResult(Activity.RESULT_OK, returnIntent);
             }
         });
+
+        Log.d("LOCATION", "OnMapReady finished");
     }
 
 }

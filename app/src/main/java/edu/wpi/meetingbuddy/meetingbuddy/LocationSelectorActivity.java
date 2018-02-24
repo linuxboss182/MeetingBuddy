@@ -3,6 +3,9 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +27,7 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
 
     Button selectLocationBtn;
     private GoogleMap mMap;
+    int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,23 +62,30 @@ public class LocationSelectorActivity extends AppCompatActivity implements OnMap
         // Add a marker in Worcester, Mass,
         // and move the map's camera to the same location.
         LatLng worcester = new LatLng(42.273706, -71.808413);
-        //googleMap.addMarker(new MarkerOptions().position(worcester)
-          //      .title("Marker in Worcester"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(worcester));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(worcester, 18), 2000, null);
         mMap = googleMap;
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                mMap.addMarker(new MarkerOptions().position(latLng)
-                     .title("Dropped Pin"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("picked_point",latLng);
-                setResult(Activity.RESULT_OK, returnIntent);
+                counter++;
+                if (counter < 2) {
+                    mMap.addMarker(new MarkerOptions().position(latLng).title("Dropped Pin"));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18), 2000, null);
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("picked_point",latLng);
+                    setResult(Activity.RESULT_OK, returnIntent);
+                } else {
+                    Toast.makeText(getApplicationContext(), "You cannot set more than one meeting point.", Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
 
         Log.d("LOCATION", "OnMapReady finished");
     }
+
+
 
 }

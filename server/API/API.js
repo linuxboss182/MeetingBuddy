@@ -112,7 +112,18 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
 
 
             //Insert other attendance
+            for (var i = 0, len = attendance.length; i < len; i++) {
+                //Find account ID for the username
+                db.get("SELECT * FROM Account WHERE username = ?", [attendance[i]], function(err,row){
+                    if(!err && row){ //If no error and username exists
+                        var inviteID = row.accountID;
+                        var aid = null;
+                        var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
+                        astmt.run(aid, inviteID, mid, 'invited');
+                    }
+                });
 
+            }
 
         });
     });

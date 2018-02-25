@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AvailabilitySelector">
+        <attr name="dividerColor" format="color"/>
+        <attr name="android:textSize" format="dimension"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="cellColorDefault" format="color"/>
+        <attr name="cellColorEmpty" format="color"/>
+        <attr name="cellColorSelected" format="color"/>
+        <attr name="cellColorDisabled" format="color"/>
+        <attr name="cellTextColor" format="color"/>
+        <attr name="cellTextColorDisabled" format="color"/>
+        <attr name="cellTextColorSelected" format="color"/>
+        <attr name="cellTextColorEmpty" format="color"/>
+        <attr name="cellTextColorDefault" format="color"/>
+        <attr name="columnDisplay" format="enum">
+            <enum name="weekdays" value="2"/>
+            <enum name="weekend" value="0"/>
+            <enum name="all" value="1"/>
+        </attr>
+
+        <attr name="timeStepSize" format="enum">
+            <enum name="quarterhour" value="25"/>
+            <enum name="halfhour" value="50"/>
+            <enum name="hour" value="100"/>
+            <enum name="twohour" value="200"/>
+        </attr>
+
+        <attr name="startTime" format="enum">
+            <enum name="am_0" value="0"/>
+            <enum name="am_1" value="1"/>
+            <enum name="am_2" value="2"/>
+            <enum name="am_3" value="3"/>
+            <enum name="am_4" value="4"/>
+            <enum name="am_5" value="5"/>
+            <enum name="am_6" value="6"/>
+            <enum name="am_7" value="7"/>
+            <enum name="am_8" value="8"/>
+            <enum name="am_9" value="9"/>
+            <enum name="am_10" value="10"/>
+            <enum name="am_11" value="11"/>
+            <enum name="pm_0" value="12"/>
+            <enum name="pm_1" value="13"/>
+            <enum name="pm_2" value="14"/>
+            <enum name="pm_3" value="15"/>
+            <enum name="pm_4" value="16"/>
+            <enum name="pm_5" value="17"/>
+            <enum name="pm_6" value="18"/>
+            <enum name="pm_7" value="19"/>
+            <enum name="pm_8" value="20"/>
+            <enum name="pm_9" value="21"/>
+            <enum name="pm_10" value="22"/>
+            <enum name="pm_11" value="23"/>
+        </attr>
+
+        <attr name="endTime" format="enum">
+            <enum name="am_0" value="0"/>
+            <enum name="am_1" value="1"/>
+            <enum name="am_2" value="2"/>
+            <enum name="am_3" value="3"/>
+            <enum name="am_4" value="4"/>
+            <enum name="am_5" value="5"/>
+            <enum name="am_6" value="6"/>
+            <enum name="am_7" value="7"/>
+            <enum name="am_8" value="8"/>
+            <enum name="am_9" value="9"/>
+            <enum name="am_10" value="10"/>
+            <enum name="am_11" value="11"/>
+            <enum name="pm_0" value="12"/>
+            <enum name="pm_1" value="13"/>
+            <enum name="pm_2" value="14"/>
+            <enum name="pm_3" value="15"/>
+            <enum name="pm_4" value="16"/>
+            <enum name="pm_5" value="17"/>
+            <enum name="pm_6" value="18"/>
+            <enum name="pm_7" value="19"/>
+            <enum name="pm_8" value="20"/>
+            <enum name="pm_9" value="21"/>
+            <enum name="pm_10" value="22"/>
+            <enum name="pm_11" value="23"/>
+        </attr>
+    </declare-styleable>
+</resources>

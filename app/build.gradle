@@ -37,8 +37,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.squareup.okhttp:okhttp:2.3.0'
+    compile 'com.google.android.gms:play-services:11.8.0'
     compile 'com.google.android.gms:play-services-maps:11.8.0'
     implementation 'com.android.support:gridlayout-v7:27.0.2'
+    compile 'com.google.android.gms:play-services-location:11.8.0'
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile 'com.google.firebase:firebase-auth:11.8.0'
+    compile 'com.google.firebase:firebase-messaging:11.8.0'
 
     implementation project(path : ':lib:When3Meet', configuration: 'default')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

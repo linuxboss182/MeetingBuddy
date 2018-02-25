@@ -59,7 +59,6 @@ router.post('/Login', function(req, res, next) {
 
 router.post('/Search', function(req, res, next) {
     var username = req.body.username;
-    console.log(username)
 
     //Load account with given username and check for password
     db.all("SELECT username FROM Account WHERE username LIKE '%' || ? || '%' ", [username], function(err,rows){
@@ -101,16 +100,25 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
     var aid = null;
     var mid = null;
 
-    //Insert attendance
-    var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
-    astmt.run(aid, organizer, mid, 'joined');
-
-    console.log(attendance)
-
     //Insert meeting
-    var mstmt = db.prepare("INSERT INTO Meeting VALUES (?, ?,?,?,?,?,?,?,?,?)");
-    mstmt.run(mid, organizer, name, time, date, place, longitude, latitude, classSize, aid);
+    var mstmt = db.prepare("INSERT INTO Meeting VALUES (?,?,?,?,?,?,?,?,?,?)", function(){
+        db.get("SELECT max(meetingID) AS nextID FROM Meeting", function(err,row){
 
+            mid = row.nextID;
+
+            //Insert organizer attendance
+            var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
+            astmt.run(aid, organizer, mid, 'joined');
+
+
+            //Insert other attendance
+
+
+        });
+    });
+
+
+    mstmt.run(mid, organizer, name, time, date, place, longitude, latitude, classSize, aid);
     res.json({"status": "success"});
 });
 
@@ -190,7 +198,6 @@ router.post('/getMyMeetings', requireLogin, function(req, res, next) {
         if(err){
             res.json({"status": "Error finding attendance"});
         }else{
-            console.log(rows)
             res.json(rows);
         }
     });

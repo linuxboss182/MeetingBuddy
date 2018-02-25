@@ -143,7 +143,46 @@ public class MyMeetingFragment extends Fragment{
             mMeeting = meeting;
             mTitleTextView.setText(mMeeting.getName());
             mDateTextView.setText(mMeeting.getDate());
-//            mSolvedImageView.setVisibility(meeting.hasAttended() ? View.VISIBLE : View.GONE); TODO
+            JSONObject creds = new JSONObject();
+            try {
+                creds.put("meetingID", mMeeting.getMeetingID());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            //Check if I have arrived at this meeting
+            networkManager.post(NetworkManager.url+"/getAttendance", creds.toString(), new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    System.out.println("Failed to connect");
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), "Lost Connection", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    final String responseStr = response.body().string();
+                    String status = "";
+                    try {
+                        final JSONObject jsonRes = new JSONObject(responseStr);
+                        status = jsonRes.getString("status");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    if(status.equals("arrived")){
+                            mSolvedImageView.setVisibility(View.VISIBLE);
+                    }else{
+                        mSolvedImageView.setVisibility(View.GONE);
+                    }
+
+                }
+            });
         }
 
         @Override

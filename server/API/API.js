@@ -163,10 +163,12 @@ router.post('/updateAttendance', requireLogin, function(req, res, next) {
 });
 
 //Gets
-router.get('/getAttendance', function(req, res, next) {
+router.post('/getAttendance', function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 
-    db.all("SELECT * FROM Attendance WHERE accountID = ?", [accountID], function (err, rows) {
+    var meetingID = req.body.meetingID;
+
+    db.get("SELECT * FROM Attendance WHERE accountID = ? AND meetingID = ?", [accountID, meetingID], function (err, rows) {
         if(err){
             res.json({"status": "Error finding attendance"});
         }else{
@@ -180,7 +182,7 @@ router.get('/getMeeting', function(req, res, next) {
 
     var meetingID = req.body.meetingID;
 
-    db.get("SELECT * FROM Meeting WHERE meetingID = ?", [meetingID], function (err, row) {
+    db.all("SELECT * FROM Meeting WHERE meetingID = ?", [meetingID], function (err, row) {
         if(err || !row){
             res.json({"status": "Error finding meeting"});
         }else{

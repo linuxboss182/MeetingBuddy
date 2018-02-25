@@ -1,6 +1,7 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,43 +55,77 @@ public class PeopleSearchActivity extends AppCompatActivity {
 
         usernames = new ArrayList<>();
         selectedUsers = new ArrayList<>();
-        //try to retrieve list of usernames from db
+
+        JSONObject creds = new JSONObject();
         try {
-            retrieveData();
-            //Log.e("usernames:", usernames.get(0));
-        } catch (NullPointerException e) {
+            creds.put("username", "");
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        usernames.add("smcateer");
-        usernames.add("paul");
-        usernames.add("jesse");
+        //Load usernames from server
+        networkManager.post(NetworkManager.url + "/Search", creds.toString(), new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                System.out.println("Failed to connect");
+            }
 
-        allUsers= "";
-        trimmed = "";
+            @Override
+            public void onResponse(Response response) throws IOException {
+                final String responseStr = response.body().string();
+                final int statusCode = response.code();
+                try {
 
+                    //Get usernames from server
+                    final JSONArray jsonUsernames = new JSONArray(responseStr);
 
-        final ListView listView = findViewById(R.id.listView);
-        selectedUsersTV = findViewById(R.id.selectedUsersTV);
-        adapter = new CustomAdapter(this, R.layout.item_row, usernames);
-        listView.setAdapter(adapter);
-        adapter.addAll(usernames);
+                    for (int i = 0; i < jsonUsernames.length(); i++) {
+                        usernames.add(i, jsonUsernames.getJSONObject(i).getString("username"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            //onItemClick() callback method
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                //Get ListView clicked item's corresponded Array element value
-                String clickedItemValue = usernames.get(position);
+                update();
 
-                //Generate a Toast message
-                String toastMessage = "Position : "+position + " || Value : " + clickedItemValue;
+            }
+        });
+    }
 
-                //Apply the ListView background color as user selected item value
-                //listView.setBackgroundColor(Color.parseColor(clickedItemValue));
+    private void update(){
+//        //updateUI
+        final Context thiscontect = this;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-                //Display user response as a Toast message
-                Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
-                addUserToSearchBar(clickedItemValue);
+                allUsers= "";
+                trimmed = "";
+
+                final ListView listView = findViewById(R.id.listView);
+                selectedUsersTV = findViewById(R.id.selectedUsersTV);
+                adapter = new CustomAdapter(thiscontect, R.layout.item_row, usernames);
+                listView.setAdapter(adapter);
+                adapter.addAll(usernames);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                    //onItemClick() callback method
+                    public void onItemClick(AdapterView<?> parent, View v, int position, long id){
+                        //Get ListView clicked item's corresponded Array element value
+                        String clickedItemValue = usernames.get(position);
+
+                        //Generate a Toast message
+                        String toastMessage = "Position : "+position + " || Value : " + clickedItemValue;
+
+                        //Apply the ListView background color as user selected item value
+                        //listView.setBackgroundColor(Color.parseColor(clickedItemValue));
+
+                        //Display user response as a Toast message
+                        Toast.makeText(getApplicationContext(), toastMessage, Toast.LENGTH_SHORT).show();
+                        addUserToSearchBar(clickedItemValue);
+
+                    }
+                });
 
             }
         });
@@ -162,33 +198,4 @@ public class PeopleSearchActivity extends AppCompatActivity {
         }
 
     }
-
-    private void retrieveData() {
-        networkManager.post(NetworkManager.url + "/Search", "", new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                System.out.println("Failed to connect");
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-                final String responseStr = response.body().string();
-                final int statusCode = response.code();
-                try {
-
-                    //Get usernames from server
-                    final JSONArray jsonUsernames = new JSONArray(responseStr);
-
-                    for (int i = 0; i < jsonUsernames.length(); i++) {
-                        usernames.add(i, jsonUsernames.getJSONObject(i).toString());
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-
-
 }

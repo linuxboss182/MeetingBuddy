@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.android.gms.internal.zzahn.runOnUiThread;
+
 /**
  * Created by Anh on 2/17/2018.
  */
@@ -175,11 +177,18 @@ public class MyMeetingFragment extends Fragment{
                         e.printStackTrace();
                     }
 
-                    if(status.equals("arrived")){
+                    final String uistatus = status;
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        if(uistatus.equals("arrived")){
                             mSolvedImageView.setVisibility(View.VISIBLE);
-                    }else{
-                        mSolvedImageView.setVisibility(View.GONE);
-                    }
+                        }else{
+                            mSolvedImageView.setVisibility(View.GONE);
+                        }
+                        }
+                    });
 
                 }
             });

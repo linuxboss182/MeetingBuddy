@@ -106,7 +106,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
                 selectedUsersTV = findViewById(R.id.selectedUsersTV);
                 adapter = new CustomAdapter(thiscontect, R.layout.item_row, usernames);
                 listView.setAdapter(adapter);
-                adapter.addAll(usernames);
+//                adapter.addAll(usernames);
 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                     //onItemClick() callback method

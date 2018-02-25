@@ -112,7 +112,18 @@ router.post('/newMeeting', requireLogin, function(req, res, next) {
 
 
             //Insert other attendance
+            for (var i = 0, len = attendance.length; i < len; i++) {
+                //Find account ID for the username
+                db.get("SELECT * FROM Account WHERE username = ?", [attendance[i]], function(err,row){
+                    if(!err && row){ //If no error and username exists
+                        var inviteID = row.accountID;
+                        var aid = null;
+                        var astmt = db.prepare("INSERT INTO Attendance VALUES (?,?,?,?)");
+                        astmt.run(aid, inviteID, mid, 'invited');
+                    }
+                });
 
+            }
 
         });
     });
@@ -163,10 +174,12 @@ router.post('/updateAttendance', requireLogin, function(req, res, next) {
 });
 
 //Gets
-router.get('/getAttendance', function(req, res, next) {
+router.post('/getAttendance', function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 
-    db.all("SELECT * FROM Attendance WHERE accountID = ?", [accountID], function (err, rows) {
+    var meetingID = req.body.meetingID;
+
+    db.get("SELECT * FROM Attendance WHERE accountID = ? AND meetingID = ?", [accountID, meetingID], function (err, rows) {
         if(err){
             res.json({"status": "Error finding attendance"});
         }else{
@@ -180,7 +193,7 @@ router.get('/getMeeting', function(req, res, next) {
 
     var meetingID = req.body.meetingID;
 
-    db.get("SELECT * FROM Meeting WHERE meetingID = ?", [meetingID], function (err, row) {
+    db.all("SELECT * FROM Meeting WHERE meetingID = ?", [meetingID], function (err, row) {
         if(err || !row){
             res.json({"status": "Error finding meeting"});
         }else{
@@ -194,7 +207,7 @@ router.post('/getMyMeetings', requireLogin, function(req, res, next) {
 
     var meetingID = req.body.meetingID;
 
-    db.all("SELECT * FROM Attendance, Meeting WHERE accountID = ?", [accountID], function (err, rows) {
+    db.all("SELECT * FROM Attendance, Meeting WHERE accountID = ? AND Attendance.meetingID = Meeting.meetingID", [accountID], function (err, rows) {
         if(err){
             res.json({"status": "Error finding attendance"});
         }else{

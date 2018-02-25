@@ -24,13 +24,10 @@ import android.app.Activity
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.view.*
 import android.view.MotionEvent
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 import org.json.JSONArray
 import org.json.JSONObject
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-
 
 
 

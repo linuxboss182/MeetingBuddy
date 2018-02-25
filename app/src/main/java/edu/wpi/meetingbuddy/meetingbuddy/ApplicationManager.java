@@ -77,19 +77,19 @@ public class ApplicationManager extends Application implements OnSuccessListener
             mGeofenceList.add(newFence);
         }
 
-        try {
-            mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
-                    .addOnSuccessListener(this)
-                    .addOnFailureListener(this);
-        }
-        catch (SecurityException e)
-        {
-            Log.e("Geofencelient", e.toString());
-        }
+        if(!mGeofenceList.isEmpty()) {
+            try {
+                mGeofencingClient.addGeofences(getGeofencingRequest(), getGeofencePendingIntent())
+                        .addOnSuccessListener(this)
+                        .addOnFailureListener(this);
+            } catch (SecurityException e) {
+                Log.e("Geofencelient", e.toString());
+            }
 
-        LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
-        GeofenceBroadcastReceiver receiver = new GeofenceBroadcastReceiver(this);
-        lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
+            LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
+            GeofenceBroadcastReceiver receiver = new GeofenceBroadcastReceiver(this);
+            lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
+        }
     }
 
     private GeofencingRequest getGeofencingRequest()

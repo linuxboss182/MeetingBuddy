@@ -315,14 +315,16 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
 
     fun setCells(jsonStr : String)
     {
+        Log.d("JSON String", jsonStr);
+        if (jsonStr.length == 0) return
         val json : JSONObject = JSONObject(jsonStr)
 
         val startTime = json.getInt("startTime")
         val endTime = json.getInt("endTime")
-        val timeStep = json.getString("timeStep");
+        val timeStep = json.getString("stepSize")
 
-        val times : JSONArray = JSONArray(json.getJSONArray("times"))
-        for (i in 0..times.length())
+        val times : JSONArray = json.getJSONArray("times")
+        for (i in 0..times.length()-1)
         {
             val time = times.getJSONObject(i)
             val row = time.getInt("row")
@@ -336,6 +338,7 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
     fun mergeCalendars(jsonStrings : ArrayList<String>)
     {
         totalPeople = jsonStrings.size;
+        if (totalPeople == 0) return;
         for (json : String in jsonStrings)
         {
             val jason = JSONObject(json)
@@ -439,6 +442,7 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         {
             for (c in 0..cells[r].size-1)
             {
+                if (grid.childCount <= r * grid.columnCount + c) return;
                 val cell : TextView = grid.getChildAt(r * grid.columnCount + c) as TextView
 
                 if (cells[r][c] == CELL_SELECTED)

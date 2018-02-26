@@ -74,8 +74,9 @@ router.post('/updateSchedule', requireLogin, function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 
     var schedule = req.body.schedule;
+    console.log(schedule);
 
-    db.run("UPDATE Account SET schedule = ? WHERE accountID = ?", [schedule, accountID], function(err) {
+    db.run("UPDATE Account SET schedule = ? WHERE accountID = ?", [JSON.stringify(schedule), accountID], function(err) {
         if(err){
             res.json({"status": "Account Not Found"});
         }else{

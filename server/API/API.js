@@ -252,6 +252,19 @@ router.post('/getAccount', function(req, res, next) {
     });
 });
 
+router.post('/getSchedule', function(req, res, next) {
+    var accountID = req.session.accountID; //Logged in user
+
+    db.get("SELECT schedule FROM Account WHERE accountID = ?", [accountID], function(err,row){
+        if(err || !row){ //If no error or no account found
+            res.json({"status": "Error finding Account"});
+        }else{
+            res.json(Object.assign({"status": "success"}, row));
+        }
+    });
+
+});
+
 //Helpers
 function requireLogin(req, res, next) {
     if (req.session && req.session.isLoggedIn)

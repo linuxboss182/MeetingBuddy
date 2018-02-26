@@ -210,6 +210,20 @@ router.post('/getAttendance', function(req, res, next) {
     });
 });
 
+router.post('/getMeetingAttendance', function(req, res, next) {
+    var accountID = req.session.accountID; //Logged in user
+
+    var meetingID = req.body.meetingID;
+
+    db.all("SELECT * FROM Attendance WHERE meetingID = ?", [meetingID], function (err, rows) {
+        if(err){
+            res.json({"status": "Error finding attendance"});
+        }else{
+            res.json(rows);
+        }
+    });
+});
+
 router.get('/getMeeting', function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 

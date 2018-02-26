@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:name=".ApplicationManager">
         <meta-data
             android:name="com.google.android.gms.version"
@@ -51,7 +51,8 @@
         <activity
             android:name=".MyMeetingActivity"
             android:label="My Meetings"
-            android:parentActivityName=".MyMeetingActivity">
+            android:parentActivityName=".MyMeetingActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="edu.wpi.meetingbuddy.meetingbuddy.MyMeetingActivity" />

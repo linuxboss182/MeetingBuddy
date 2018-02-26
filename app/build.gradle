@@ -47,6 +47,7 @@ dependencies {
 
     implementation project(path : ':lib:When3Meet', configuration: 'default')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:design:27.0.2'
 }
 repositories {
     mavenCentral()

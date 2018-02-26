@@ -215,7 +215,7 @@ router.post('/getMeetingAttendance', function(req, res, next) {
 
     var meetingID = req.body.meetingID;
 
-    db.all("SELECT * FROM Attendance WHERE meetingID = ?", [meetingID], function (err, rows) {
+    db.all("SELECT * FROM Attendance WHERE meetingID = ? AND status = 'arrived'", [meetingID], function (err, rows) {
         if(err){
             res.json({"status": "Error finding attendance"});
         }else{

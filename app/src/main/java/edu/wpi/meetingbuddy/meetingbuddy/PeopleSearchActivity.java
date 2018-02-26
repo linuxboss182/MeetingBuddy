@@ -115,7 +115,7 @@ public class PeopleSearchActivity extends AppCompatActivity {
                         String clickedItemValue = usernames.get(position);
 
                         //Generate a Toast message
-                        String toastMessage = "Position : "+position + " || Value : " + clickedItemValue;
+                        String toastMessage = "Added " + clickedItemValue + " to the meeting.";
 
                         //Apply the ListView background color as user selected item value
                         //listView.setBackgroundColor(Color.parseColor(clickedItemValue));

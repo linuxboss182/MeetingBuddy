@@ -50,7 +50,7 @@ public class ApplicationManager extends Application implements OnSuccessListener
 
     ////Geofence
     private String ENTER_EVENT = "enter";
-    private Float geofenceRadius  = 2000.0f;
+    private Float geofenceRadius  = 30.0f;
 
     ////Google API
     private GeofencingClient mGeofencingClient;

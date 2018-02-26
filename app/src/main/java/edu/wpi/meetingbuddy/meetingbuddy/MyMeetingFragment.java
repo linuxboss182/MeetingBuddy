@@ -36,6 +36,7 @@ public class MyMeetingFragment extends Fragment{
 
     private RecyclerView mMeetingRecyclerView;
     private MeetingAdapter mAdapter;
+    private Account account;
     private FloatingActionButton add;
 
     private NetworkManager networkManager;
@@ -128,7 +129,6 @@ public class MyMeetingFragment extends Fragment{
             implements View.OnClickListener {
 
         private Meeting mMeeting;
-
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private ImageView mSolvedImageView;
@@ -197,9 +197,22 @@ public class MyMeetingFragment extends Fragment{
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(getActivity(), StudentMeetingActivity.class);
-            intent.putExtra("Meeting", mMeeting);
-            startActivity(intent);
+
+            // Determine if we are the organizer
+            int organizer = mMeeting.getOrganizer();
+            int accountID = account.getAccountID();
+
+            // Open corresponding activity
+            if(organizer == accountID){
+                Intent intent = new Intent(getActivity(), OrganizerMeetingActivity.class);
+                intent.putExtra("Meeting", mMeeting);
+                startActivity(intent);
+            }
+            else {
+                Intent intent = new Intent(getActivity(), StudentMeetingActivity.class);
+                intent.putExtra("Meeting", mMeeting);
+                startActivity(intent);
+            }
         }
     }
 
@@ -229,5 +242,8 @@ public class MyMeetingFragment extends Fragment{
         }
     }
 
+    public void loadAccount(Account acc){
+        this.account = acc;
+    }
 
 }

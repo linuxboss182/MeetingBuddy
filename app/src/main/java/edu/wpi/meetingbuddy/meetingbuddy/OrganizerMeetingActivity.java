@@ -61,14 +61,14 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
         System.out.println("We got this far2");
 
         // Get the data from the intent
-//        Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
-//
-//        // Init the widgets
-//        meetingText.setText(thisMeeting.getName());
-//        dateText.setText(thisMeeting.getDate());
-//        timeText.setText(thisMeeting.getTime());
-//        locationText.setText(String.format("%s%s%s%s", "Longitude: ",String.format("%1$,.2f", thisMeeting.getLongitude()), " Latitude: ",String.format("%1$,.2f", thisMeeting.getLatitude())));
-//        attendeesText.setText(thisMeeting.getClassSize());
+        Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
+
+        // Init the widgets
+        meetingText.setText(thisMeeting.getName());
+        dateText.setText(thisMeeting.getDate());
+        timeText.setText(thisMeeting.getTime());
+        locationText.setText(String.format("%s%s%s%s", "Longitude: ",String.format("%1$,.2f", thisMeeting.getLongitude()), " Latitude: ",String.format("%1$,.2f", thisMeeting.getLatitude())));
+        attendeesText.setText(thisMeeting.getClassSize());
 
 
 

@@ -79,7 +79,15 @@ public class CalendarContentResolver {
 		{
 			cur = cr.query(CalendarContract.Events.CONTENT_URI, proj, null, null, null);
 			//cur = contentResolver.query(eventsUri, new String[] {CalendarContract.Instances.DTSTART, CalendarContract.Instances.TITLE}, CalendarContract.Instances.DTSTART + " >= " + lastSunday + " and " + CalendarContract.Instances.DTSTART + " <= " + thisSunday + " and " + CalendarContract.Instances.VISIBLE + " = 1", null, CalendarContract.Instances.DTSTART + " ASC");
+			if (cur == null) return new JSONArray("[]");
 		} catch(SecurityException e){}
+		catch (Exception e){}
+		
+		try
+		{
+			if (cur == null) return new JSONArray("[]");
+		}
+		catch (Exception e){}
 		
 		while (cur.moveToNext())
 		{

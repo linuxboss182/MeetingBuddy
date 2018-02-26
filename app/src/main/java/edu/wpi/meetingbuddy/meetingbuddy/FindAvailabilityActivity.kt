@@ -26,12 +26,10 @@ class FindAvailabilityActivity : AppCompatActivity()
 
         networkManager = (this.application as ApplicationManager).networkManager
 
-        val groupData : Account? = savedInstanceState?.getSerializable("Account") as Account?; //Should be passed in as bundle data
+        val attendees = savedInstanceState?.getString("attendees") //Should be passed in as bundle data
 
-        var accountId = -1;
-        if (groupData != null) accountId = groupData.accountID
         post("getSchedule", "")
-        post("getSchedules", accountId.toString())
+        post("getSchedules", attendees.toString())
 
         //when3meet.removeCalendarConflicts()
         //when3meet.updateCells()

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
     Double longDouble = 0.0;
     Double latDouble = 0.0;
     Button create;
+    Button checkScheduleButton;
     DatePickerDialog.OnDateSetListener date;
     TimePickerDialog.OnTimeSetListener time;
     private NetworkManager networkManager;
@@ -79,6 +81,7 @@ public class CreateMeetingActivity extends AppCompatActivity {
         peopleET = findViewById(R.id.peopleET);
         locationET = findViewById(R.id.locationET);
         create = findViewById(R.id.createMeetingBtn);
+		checkScheduleButton = findViewById(R.id.checkSchedBtn);
 
         ////////// Listeners ///////////////////////////
         peopleET.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +124,18 @@ public class CreateMeetingActivity extends AppCompatActivity {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+        
+        checkScheduleButton.setOnClickListener(new View.OnClickListener()
+		{
+			@Override
+			public void onClick(View v)
+			{
+				if (attendees == null) return;
+				Intent i = new Intent(getApplicationContext(), FindAvailabilityActivity.class);
+				i.putExtra("attendees", attendees.toString());
+				startActivity(i);
+			}
+		});
 
         time = new TimePickerDialog.OnTimeSetListener() {
             @Override

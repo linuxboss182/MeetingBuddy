@@ -61,9 +61,6 @@ public class UserLoginActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_log_in);
-        
-        /*Intent i = new Intent(this, FindAvailabilityActivity.class);
-        startActivity(i);*/
 
         networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
 
@@ -198,6 +195,11 @@ public class UserLoginActivity extends Activity{
                             myAccount.fromJSON(jsonRes);
 
                             //Go to My meetings, send it my account information
+	
+							/*Intent i = new Intent(getApplicationContext(), FindAvailabilityActivity.class);
+							i.putExtra("Account", myAccount);
+							startActivity(i);*/
+							
                             Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
                             ApplicationManager am = ((ApplicationManager)getApplication());
                             am.setAccount(myAccount);

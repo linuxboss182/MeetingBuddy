@@ -4,12 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,6 +36,7 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
     TextView presentAttendeesText;
     ListView attendeesList;
     ArrayAdapter<String> listAdapter;
+    ArrayList<String> names;
     Bundle extra;
 
     @SuppressLint("DefaultLocale")
@@ -36,14 +47,50 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.organizer_meeting_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // String array and listview things for present attendees
-        String[] planets = new String[] { "Mercury", "Venus", "Earth", "Mars",
-                "Jupiter", "Saturn", "Uranus", "Neptune"};
-        ArrayList<String> planetList = new ArrayList<String>();
-        planetList.addAll( Arrays.asList(planets) );
-        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, planetList);
+        // Get the data from the intent
+        Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
 
-        System.out.println("We got this far");
+        JSONObject jason = new JSONObject();
+        try {
+            jason.put("meetingID", thisMeeting.getMeetingID());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        NetworkManager networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
+        networkManager.post(NetworkManager.url + "/getMeetingAttendance", jason.toString(), new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                System.out.println("Failed to connect");
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Failed to connect, error in phone number getter", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                ArrayList<String> strings = new ArrayList<>();
+                final String responseStr = response.body().string();
+                try {
+                    final JSONArray jsonArr = new JSONArray(responseStr);
+                    Log.e("Response string", responseStr);
+                    for(int i = 0; i < jsonArr.length(); i++){
+                        String first = jsonArr.getJSONObject(i).getString("firstName");
+                        String last = jsonArr.getJSONObject(i).getString("lastName");
+                        String id = jsonArr.getJSONObject(i).getString("accountID");
+                        strings.add( "ID: " + id + ": " + first + " " + last );
+                        Log.e("NAMES ADDED TO THE S", first + " " + last);
+                    }
+                    callback(strings);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         // Reference the widgets
         attendeesList = findViewById(R.id.AttendeesList);
@@ -54,14 +101,6 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
         attendeesText = findViewById(R.id.AttendeesText);
         presentAttendeesText = findViewById(R.id.PresentAttendeesText);
 
-        System.out.println("We got this far1");
-
-        attendeesList.setAdapter(listAdapter);
-
-        System.out.println("We got this far2");
-
-        // Get the data from the intent
-        Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
 
         // Init the widgets
         meetingText.setText(thisMeeting.getName());
@@ -72,5 +111,10 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
 
 
 
+    }
+    public void callback(ArrayList<String> names){
+        this.names = names;
+        listAdapter = new ArrayAdapter<String>(this, R.layout.simplerow, names);
+        attendeesList.setAdapter(listAdapter);
     }
 }

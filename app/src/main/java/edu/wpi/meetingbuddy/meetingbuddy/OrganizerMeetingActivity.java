@@ -34,6 +34,8 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.organizer_meeting_view);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // String array and listview things for present attendees
         String[] planets = new String[] { "Mercury", "Venus", "Earth", "Mars",
                 "Jupiter", "Saturn", "Uranus", "Neptune"};

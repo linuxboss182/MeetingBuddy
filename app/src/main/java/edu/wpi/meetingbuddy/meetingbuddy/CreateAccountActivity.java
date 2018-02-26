@@ -45,6 +45,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
 
         //Username

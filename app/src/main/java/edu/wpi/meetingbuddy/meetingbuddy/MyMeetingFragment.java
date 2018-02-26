@@ -2,6 +2,7 @@ package edu.wpi.meetingbuddy.meetingbuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,8 +36,8 @@ public class MyMeetingFragment extends Fragment{
 
     private RecyclerView mMeetingRecyclerView;
     private MeetingAdapter mAdapter;
-    private Button add;
     private Account account;
+    private FloatingActionButton add;
 
     private NetworkManager networkManager;
 
@@ -48,7 +49,7 @@ public class MyMeetingFragment extends Fragment{
         networkManager = ((ApplicationManager) this.getActivity().getApplication()).getNetworkManager();
 
         //Add new meeting
-        add = (Button) view.findViewById(R.id.add_meeting);
+        add = view.findViewById(R.id.add_meeting);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

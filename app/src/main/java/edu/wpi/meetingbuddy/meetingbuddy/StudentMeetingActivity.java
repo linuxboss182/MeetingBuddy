@@ -43,6 +43,7 @@ public class StudentMeetingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_meeting_view);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Meeting thisMeeting = (Meeting) getIntent().getSerializableExtra("Meeting");
 

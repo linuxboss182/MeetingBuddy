@@ -199,7 +199,8 @@ public class UserLoginActivity extends Activity{
 
                             //Go to My meetings, send it my account information
                             Intent i = new Intent(getApplicationContext(), MyMeetingActivity.class);
-                            i.putExtra("Account", myAccount);
+                            ApplicationManager am = ((ApplicationManager)getApplication());
+                            am.setAccount(myAccount);
                             startActivity(i);
                         }
 

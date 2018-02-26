@@ -1,11 +1,13 @@
 package edu.wpi.meetingbuddy.meetingbuddy;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +38,10 @@ public class MyMeetingFragment extends Fragment{
 
     private RecyclerView mMeetingRecyclerView;
     private MeetingAdapter mAdapter;
-    private Account account;
     private FloatingActionButton add;
 
     private NetworkManager networkManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -200,7 +202,7 @@ public class MyMeetingFragment extends Fragment{
 
             // Determine if we are the organizer
             int organizer = mMeeting.getOrganizer();
-            int accountID = account.getAccountID();
+            int accountID = ((ApplicationManager)getActivity().getApplication()).account.getAccountID();
 
             // Open corresponding activity
             if(organizer == accountID){
@@ -242,8 +244,5 @@ public class MyMeetingFragment extends Fragment{
         }
     }
 
-    public void loadAccount(Account acc){
-        this.account = acc;
-    }
 
 }

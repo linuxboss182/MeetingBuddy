@@ -56,6 +56,9 @@ public class ApplicationManager extends Application implements OnSuccessListener
     private GeofencingClient mGeofencingClient;
     private ArrayList<Geofence> mGeofenceList;
 
+    // Account that is logged in
+    public Account account;
+
 
     void setupGeofences(ArrayList<Meeting> meetings){
         // Setup Geofences
@@ -191,5 +194,7 @@ public class ApplicationManager extends Application implements OnSuccessListener
             }
         });
     }
-
+    public void setAccount(Account account){
+        this.account = account;
+    }
 }

@@ -68,7 +68,7 @@ public class OrganizerMeetingActivity extends AppCompatActivity {
         dateText.setText(thisMeeting.getDate());
         timeText.setText(thisMeeting.getTime());
         locationText.setText(String.format("%s%s%s%s", "Longitude: ",String.format("%1$,.2f", thisMeeting.getLongitude()), " Latitude: ",String.format("%1$,.2f", thisMeeting.getLatitude())));
-        attendeesText.setText(thisMeeting.getClassSize());
+//        attendeesText.setText(thisMeeting.getClassSize());
 
 
 

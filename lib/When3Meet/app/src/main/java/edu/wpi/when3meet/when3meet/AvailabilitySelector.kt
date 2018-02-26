@@ -6,6 +6,7 @@ package edu.wpi.when3meet.when3meet
  */
 
 import android.Manifest
+import android.animation.ArgbEvaluator
 import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.Canvas
@@ -38,6 +39,8 @@ const val WEEKDAYS = 2
 val DAY_NAMES = arrayOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 
 private var cells = ArrayList<ArrayList<Int>>()
+private var cellDepth = ArrayList<ArrayList<Int>>()
+private var totalPeople : Int = 1
 
 const val CELL_SELECTED = 0
 const val CELL_UNSELECTED = 1
@@ -101,10 +104,6 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         checkPermissions(42, Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR)
 
         initializeGrid(mode, mStartTime, mEndTime, mStepSize)
-        removeCalendarConflicts()
-        updateCells()
-
-        Log.d("Cells:", getCellsJSON().toString(4))
     }
 
     private fun initializeGrid(mode : Int, startTime : Int, endTime : Int, stepSize : Float)
@@ -142,10 +141,13 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         for (row in 0..(numRows + 1))
         {
             cells.add(ArrayList<Int>())
+            cellDepth.add(ArrayList<Int>())
             var colIndex = 0;
 
             for (col in (mode - 2)..(mode + numColumns - 2))
             {
+                cellDepth[row].add(0);
+
                 cell = inflater.inflate(R.layout.event_cell, grid, false) as TextView
                 cell.setTextColor(cellTextColor)
 
@@ -331,7 +333,25 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         }
     }
 
-    private fun removeCalendarConflicts()
+    fun mergeCalendars(jsonStrings : ArrayList<String>)
+    {
+        totalPeople = jsonStrings.size;
+        for (json : String in jsonStrings)
+        {
+            val jason = JSONObject(json)
+            val times = JSONArray(jason.getJSONArray("times"))
+            for (i in 0..times.length())
+            {
+                val time = times.getJSONObject(i)
+                val row = time.getInt("row")
+                val col = time.getInt("col")
+
+                cellDepth[row][col]++
+            }
+        }
+    }
+
+    fun removeCalendarConflicts()
     {
         val ccr : CalendarContentResolver = CalendarContentResolver(context)
 
@@ -386,7 +406,7 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         return cellNumbers
     }
 
-    public fun updateCell(row : Int, col : Int, newCellState : Int)
+    fun updateCell(row : Int, col : Int, newCellState : Int)
     {
         cells[row][col] = newCellState;
         val index = row * grid.columnCount + col
@@ -413,7 +433,7 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
         }
     }
 
-    private fun updateCells()
+    fun updateCells()
     {
         for (r in 0..cells.size-1)
         {
@@ -423,7 +443,7 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
 
                 if (cells[r][c] == CELL_SELECTED)
                 {
-                    cell.setBackgroundColor(cellColorSelected)
+                    cell.setBackgroundColor(interpolateColor(cellColorSelected, cellDepth[r][c], totalPeople))
                     cell.setTextColor(cellTextColorSelected)
                 }
                 else if (cells[r][c] == CELL_UNSELECTED)
@@ -443,6 +463,11 @@ class AvailabilitySelector : GridLayout, View.OnTouchListener {
                 }
             }
         }
+    }
+
+    fun interpolateColor(color : Int, depth : Int, numPeople : Int) : Int
+    {
+        return ArgbEvaluator().evaluate(depth/(numPeople.toFloat()), color, 0xffffff) as Int
     }
 
     fun setOnCellStateChangedListener(listener : OnCellStateChangedListener)

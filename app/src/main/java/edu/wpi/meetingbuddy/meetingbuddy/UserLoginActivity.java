@@ -61,6 +61,9 @@ public class UserLoginActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_log_in);
+        
+        /*Intent i = new Intent(this, FindAvailabilityActivity.class);
+        startActivity(i);*/
 
         networkManager = ((ApplicationManager) this.getApplication()).getNetworkManager();
 

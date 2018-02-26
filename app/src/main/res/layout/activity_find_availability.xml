@@ -10,10 +10,11 @@
     <edu.wpi.when3meet.when3meet.AvailabilitySelector
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/when3meet"
         app:columnDisplay="weekdays"
         app:timeStepSize="hour"
         app:startTime="am_8"
-        app:endTime="pm_5"
+        app:endTime="pm_8"
         app:cellColorDefault="#888888"
         app:cellColorDisabled="#444444"
         app:cellColorEmpty="#dddddd"

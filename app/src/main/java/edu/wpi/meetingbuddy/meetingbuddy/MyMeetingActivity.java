@@ -13,11 +13,10 @@ import android.util.Log;
 
 public class MyMeetingActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Account myAccount = (Account) getIntent().getSerializableExtra("Account");
-
         setContentView(R.layout.activity_fragment);
 
         FragmentManager fm = getSupportFragmentManager();
@@ -25,11 +24,12 @@ public class MyMeetingActivity extends AppCompatActivity {
 
         if (fragment == null) {
             fragment = new MyMeetingFragment();
-            Log.e("TEST","Loading account!");
-            ((MyMeetingFragment)fragment).loadAccount(myAccount);
+            Log.e("TEST", "Loading account!");
+
             fm.beginTransaction()
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
     }
+
 }

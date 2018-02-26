@@ -157,6 +157,28 @@ router.post('/addAttendance', requireLogin, function(req, res, next) {
 
 });
 
+router.post('/getSchedules', requireLogin, function(req, res, next) {
+    var accountID = req.session.accountID; //Logged in user
+    var attendance = req.body.attendance;
+
+    var schedules = [];
+
+    //Find other attendance
+    for (var i = 0, len = attendance.length; i < len; i++) {
+        //Find account ID for the username
+        db.get("SELECT schedule FROM Account WHERE username = ?", [attendance[i]], function(err,row){
+            if(!err && row){ //If no error and username exists
+                schedule.add(row)
+            }
+
+            //Just finished the last select
+            if(i == len-1){
+                res.json(schedules)
+            }
+        });
+    }
+});
+
 router.post('/updateAttendance', requireLogin, function(req, res, next) {
     var accountID = req.session.accountID; //Logged in user
 

@@ -142,22 +142,22 @@ public class PeopleSearchActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
-        MenuItem searchItem = menu.findItem(R.id.app_bar_search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setQueryHint(getString(R.string.search));
-        searchView.setIconifiedByDefault(true);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterData(newText);
-                return false;
-            }
-        });
+        //MenuItem searchItem = menu.findItem(R.id.app_bar_search);
+        //searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //searchView.setQueryHint(getString(R.string.search));
+        //searchView.setIconifiedByDefault(true);
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                filterData(newText);
+//                return false;
+//            }
+//        });
         return true;
 
     }
